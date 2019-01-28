@@ -14,6 +14,8 @@ class Game {
 
     //  Initialise game objects
     gameNs.game.collisionManager = new CollisionManager();
+    //  This variable is normally set by the collision manager but I set it here so that the amount of colliders being checked can be compared.
+    gameNs.game.collisionManager.usingSpatialHashing = true;
     //  Be wary of making this variable true as there is a major performance hit, and thus should only be used for debugging purposes.
     gameNs.game.collisionManager.renderGrid = false;
     //  The player is a bigger circle then the others.

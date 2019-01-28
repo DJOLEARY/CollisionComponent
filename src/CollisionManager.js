@@ -109,7 +109,7 @@ class CollisionManager {
         if (collider.colliding === true) {
           ctx.fillStyle = this.collisionColour;
         } else {
-          if (collider.checkedForCollision === true) {
+          if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
             ctx.fillStyle = this.checkedColour;
           } else {
             ctx.fillStyle = this.noCollisionColour;
@@ -129,7 +129,7 @@ class CollisionManager {
         if (collider.colliding === true) {
           ctx.fillStyle = this.collisionColour;
         } else {
-          if (collider.checkedForCollision === true) {
+          if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
             ctx.fillStyle = this.checkedColour;
           } else {
             ctx.fillStyle = this.noCollisionColour;
@@ -156,7 +156,7 @@ class CollisionManager {
         if (collider.colliding === true) {
           ctx.fillStyle = this.collisionColour;
         } else {
-          if (collider.checkedForCollision === true) {
+          if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
             ctx.fillStyle = this.checkedColour;
           } else {
             ctx.fillStyle = this.noCollisionColour;
