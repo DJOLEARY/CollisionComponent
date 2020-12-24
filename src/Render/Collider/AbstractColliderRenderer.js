@@ -8,7 +8,7 @@ class AbstractColliderRenderer extends AbstractRenderer {
         super(context)
 
         if (this.constructor == AbstractColliderRenderer)
-            throw new Error("Class cannot be instantiated as it is Abstract")
+            throw new AbstractClassError()
 
         this.colliders = colliders
         this.usingSpatialHashing = false
@@ -32,7 +32,7 @@ class AbstractColliderRenderer extends AbstractRenderer {
     }
 
     drawShapeToContext() {
-        throw new Error("Abstract function has no implementation")
+        throw new AbstractFunctionError()
     }
     
     usesSpatialHashing() {
