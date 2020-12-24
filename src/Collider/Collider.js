@@ -9,9 +9,16 @@ class Collider {
     this.colliding = false;
     this.checkedForCollision = false;
     this.shape = shape;
-    this.objectTags = objectTags;
-    this.ignoreTags = ignoreTags;
+    this.tags = new ColliderTags(objectTags, ignoreTags);
     this.screenPos = new Vector2(0, 0);
+  }
+
+  get objectTags() {
+    return this.tags.objectTags;
+  }
+
+  get ignoreTags() {
+    return this.tags.ignoreTags;
   }
 
   /**
@@ -20,12 +27,7 @@ class Collider {
    * @return {Boolean}
    */
   containsObjectTag(tag) {
-    var containsTag = false;
-    var index = this.objectTags.indexOf(tag);
-    if (index > -1) {
-      containsTag = true;
-    }
-    return containsTag;
+    return this.tags.hasObjectTag(tag);
   }
 
   /**
@@ -34,12 +36,7 @@ class Collider {
    * @return {Boolean}
    */
   containsIgnoreTag(tag) {
-    var containsTag = false;
-    var index = this.ignoreTags.indexOf(tag);
-    if (index > -1) {
-      containsTag = true;
-    }
-    return containsTag;
+    return this.tags.hasIgnoreTag(tag);
   }
 
   /**
