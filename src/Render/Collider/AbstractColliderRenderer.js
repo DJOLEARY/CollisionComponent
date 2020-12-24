@@ -20,9 +20,9 @@ class AbstractColliderRenderer extends AbstractRenderer {
 
             this.drawShapeToContext(collider)
 
-            if (collider.colliding)
+            if (collider.colliding) {
                 this.context.fillStyle = this.collisionColour
-            else {
+            } else {
                 var useCheckedColour = collider.checkedForCollision && this.usingSpatialHashing
                 this.context.fillStyle = useCheckedColour ? this.checkedColour : this.noCollisionColour
             }
