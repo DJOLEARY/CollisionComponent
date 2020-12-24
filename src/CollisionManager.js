@@ -98,26 +98,11 @@ class CollisionManager {
             }
         }
 
-        //  If the boxColliderArray isn't empty.
-        if (this.boxColliderArray.length > 0) {
-            //  Cycle through each collider.
-            this.boxColliderArray.forEach(collider => {
-                ctx.beginPath();
-                //  Draw the rectangle.
-                ctx.rect(collider.shape.position.x, collider.shape.position.y, collider.shape.width, collider.shape.height);
-                //  If the collider is colliding make it [[RED]] otherwise check if it was checked for a collision and if it it was make it [[Yellow]], else it is [[GREEN]].
-                if (collider.colliding === true) {
-                    ctx.fillStyle = this.collisionColour;
-                } else {
-                    if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
-                        ctx.fillStyle = this.checkedColour;
-                    } else {
-                        ctx.fillStyle = this.noCollisionColour;
-                    }
-                }
-                ctx.fill();
-            });
-        }
+        var boxRenderer = new BoxColliderRenderer(ctx, this.boxColliderArray)
+        if (this.usingSpatialHashing)
+            boxRenderer.usesSpatialHashing()
+        boxRenderer.render()
+
         //  If the circleColliderArray isn't empty.
         if (this.circleColliderArray.length > 0) {
             //  Cycle through each collider.
