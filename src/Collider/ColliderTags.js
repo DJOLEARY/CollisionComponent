@@ -3,10 +3,6 @@ class ColliderTags {
     objectTags = [];
     ignoreTags = [];
 
-    /**
-     * @param {String[]} objectTags
-     * @param {String[]} ignoreTags
-     */
     constructor(objectTags, ignoreTags) {
         this.objectTags = objectTags
         this.ignoreTags = ignoreTags
