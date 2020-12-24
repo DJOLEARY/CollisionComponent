@@ -35,7 +35,7 @@ class AbstractColliderRenderer extends AbstractRenderer {
         throw new AbstractFunctionError()
     }
     
-    usesSpatialHashing() {
+    useSpatialHashing() {
         this.usingSpatialHashing = true
     }
 }

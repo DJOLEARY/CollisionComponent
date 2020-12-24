@@ -100,7 +100,7 @@ class CollisionManager {
 
         var boxRenderer = new BoxColliderRenderer(ctx, this.boxColliderArray)
         if (this.usingSpatialHashing)
-            boxRenderer.usesSpatialHashing()
+            boxRenderer.useSpatialHashing()
         boxRenderer.render()
 
         //  If the circleColliderArray isn't empty.
