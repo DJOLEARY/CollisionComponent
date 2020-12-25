@@ -1,4 +1,17 @@
 class Polygon extends Shape {
+
+    static CreateOffsetVertexArray(startPosition, offsets) {
+        var result = [startPosition];
+        var lastPosition = startPosition
+        for (let i = 0; i < offsets.length; i++) {
+            const offset = offsets[i];
+            var nextPosition = lastPosition.add(offset)
+            result.push(nextPosition)
+            lastPosition = nextPosition
+        }
+        return result
+    }
+
     /**
      * The default constructor of the class.
      * @param {Vector2[]} vertices 
