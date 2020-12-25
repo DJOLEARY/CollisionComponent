@@ -5,9 +5,9 @@ class BoxColliderRenderer extends AbstractColliderRenderer {
     }
 
     drawShapeToContext(collider) {
-        var position = collider.shape.position
-        var width = collider.shape.width
-        var height = collider.shape.height
+        var position = collider.position
+        var width = collider.width
+        var height = collider.height
         this.context.rect(position.x, position.y, width, height)
     }
 }

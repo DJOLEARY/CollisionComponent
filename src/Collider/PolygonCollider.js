@@ -13,6 +13,10 @@ class PolygonCollider extends Collider {
         return this.shape.vertices;
     }
 
+    get position() {
+        return this.shape.position
+    }
+
     set position(newPos) {
         var differenceVector = [];
         for (var i = 0, j = 1; j < this.vertices.length; i++, j++) {
