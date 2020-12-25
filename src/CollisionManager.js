@@ -2,6 +2,10 @@
 'use strict';
 
 class CollisionManager {
+
+    //  Be wary of making this value true as there is a major performance hit.
+    static RENDER_GRID = false
+
     /**
      * Default constructor for the class
      */
@@ -22,9 +26,6 @@ class CollisionManager {
         this.usingSpatialHashing = false;
         this.gridHeight = 0;
         this.gridWidth = 0;
-
-        //  Be wary of making this value true as there is a major performance hit.
-        this.renderGrid = false;
     }
 
     /**
@@ -83,19 +84,9 @@ class CollisionManager {
      * @param {Context} ctx 
      */
     render(ctx) {
-        if (this.renderGrid === true && this.usingSpatialHashing === true && this.gridHeight > 0 && this.gridWidth > 0) {
-            var width = ctx.canvas.width;
-            var height = ctx.canvas.height;
-            for (var x = 0; x < width; x += this.gridWidth) {
-                for (var y = 0; y < height; y += this.gridHeight) {
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, height);
-                    ctx.stroke();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(width, y);
-                    ctx.stroke();
-                }
-            }
+        if (CollisionManager.RENDER_GRID && this.usingSpatialHashing) {
+            var gridRenderer = new SpatialHashingGridRenderer(ctx, this.gridHeight, this.gridWidth)
+            gridRenderer.render()
         }
 
         var boxRenderer = new BoxColliderRenderer(ctx, this.boxColliderArray)
