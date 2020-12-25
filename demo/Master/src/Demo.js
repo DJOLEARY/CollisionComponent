@@ -30,7 +30,7 @@ class Demo {
     _initDemoObjects() {
         this._collisionManager = new CollisionManager()
         if (Demo._USE_SPATIAL_HASHING)
-            this._collisionManager.updateSpatialHashing(this._gridWidth, this._gridHeight)
+            this._collisionManager.useSpatialHashing(this._gridHeight, this._gridWidth)
 
         Demo.PLAYER = new BoxCollider(new Vector2(0, 0), 50, 50, ["player"])
         this._collisionManager.addBoxCollider(Demo.PLAYER)

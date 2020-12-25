@@ -10,7 +10,6 @@ class Collider {
         this.checkedForCollision = false;
         this.shape = shape;
         this.tags = new ColliderTags(objectTags, ignoreTags);
-        this.screenPos = new Vector2(0, 0);
     }
 
     /**
@@ -29,15 +28,6 @@ class Collider {
      */
     hasIgnoreTag(tag) {
         return this.tags.hasIgnoreTag(tag);
-    }
-
-    /**
-     * 
-     * @param {Scalar} gridWidth 
-     * @param {Scalar} gridHeight 
-     */
-    updateSpatialHash(gridWidth, gridHeight) {
-        this.screenPos = new Vector2(Math.floor(this.position.x / gridWidth), Math.floor(this.position.y / gridHeight));
     }
 
     /**

@@ -23,9 +23,7 @@ class CollisionManager {
         this.noCollisionColour = "Green";
         this.checkedColour = "Yellow";
 
-        this.usingSpatialHashing = false;
-        this.gridHeight = 0;
-        this.gridWidth = 0;
+        this.grid = new SpatialHashingGrid(0, 0)
     }
 
     /**
@@ -84,13 +82,13 @@ class CollisionManager {
      * @param {Context} ctx 
      */
     render(ctx) {
-        if (CollisionManager.RENDER_GRID && this.usingSpatialHashing) {
-            var gridRenderer = new SpatialHashingGridRenderer(ctx, this.gridHeight, this.gridWidth)
+        if (CollisionManager.RENDER_GRID && this.grid.areDimensionsInitialised) {
+            var gridRenderer = new SpatialHashingGridRenderer(ctx, this.grid)
             gridRenderer.render()
         }
 
         var boxRenderer = new BoxColliderRenderer(ctx, this.boxColliderArray)
-        if (this.usingSpatialHashing)
+        if (this.grid.areDimensionsInitialised)
             boxRenderer.useSpatialHashing()
         boxRenderer.render()
 
@@ -105,7 +103,7 @@ class CollisionManager {
                 if (collider.colliding === true) {
                     ctx.fillStyle = this.collisionColour;
                 } else {
-                    if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
+                    if (collider.checkedForCollision === true && this.grid.areDimensionsInitialised === true) {
                         ctx.fillStyle = this.checkedColour;
                     } else {
                         ctx.fillStyle = this.noCollisionColour;
@@ -132,7 +130,7 @@ class CollisionManager {
                 if (collider.colliding === true) {
                     ctx.fillStyle = this.collisionColour;
                 } else {
-                    if (collider.checkedForCollision === true && this.usingSpatialHashing === true) {
+                    if (collider.checkedForCollision === true && this.grid.areDimensionsInitialised === true) {
                         ctx.fillStyle = this.checkedColour;
                     } else {
                         ctx.fillStyle = this.noCollisionColour;
@@ -185,7 +183,7 @@ class CollisionManager {
                 if (ignoreObject === false && inputArray[i] !== inputArray[j] && result[i][j] === undefined) {
                     //  Checks if we should bother checking the collision.
                     var checkCollision = true;
-                    if (this.usingSpatialHashing === true) {
+                    if (this.grid.areDimensionsInitialised === true) {
                         checkCollision = this.compareSpatialHashingPositions(inputArray[i], inputArray[j]);
                     }
 
@@ -267,7 +265,7 @@ class CollisionManager {
                 if (ignoreObject === false) {
                     //  Checks if we should bother checking the collision.
                     var checkCollision = true;
-                    if (this.usingSpatialHashing === true) {
+                    if (this.grid.areDimensionsInitialised === true) {
                         checkCollision = this.compareSpatialHashingPositions(inputArray1[i], inputArray2[j]);
                     }
 
@@ -310,7 +308,7 @@ class CollisionManager {
                 if (ignoreObject === false) {
                     //  Checks if we should bother checking the collision.
                     var checkCollision = true;
-                    if (this.usingSpatialHashing === true) {
+                    if (this.grid.areDimensionsInitialised === true) {
                         checkCollision = this.compareSpatialHashingPositions(inputArray2[i], inputArray1[j]);
                     }
 
@@ -404,30 +402,8 @@ class CollisionManager {
         }
     }
 
-    /**
-     * 
-     * @param {Scalar} gridWidth 
-     * @param {Scalar} gridHeight 
-     */
-    updateSpatialHashing(gridWidth, gridHeight) {
-        if (this.usingSpatialHashing === false) {
-            this.usingSpatialHashing = true;
-        }
-
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-
-        this.boxColliderArray.forEach(boxElement => {
-            boxElement.updateSpatialHash(gridWidth, gridHeight);
-        });
-
-        this.circleColliderArray.forEach(circleElement => {
-            circleElement.updateSpatialHash(gridWidth, gridHeight);
-        });
-
-        this.polygonColliderArray.forEach(polyElement => {
-            polyElement.updateSpatialHash(gridWidth, gridHeight);
-        });
+    useSpatialHashing(height, width) {
+        this.grid.setDimensions(height, width)
     }
 
     /**
@@ -436,15 +412,7 @@ class CollisionManager {
      * @param {Collider} collider2 
      */
     compareSpatialHashingPositions(collider1, collider2) {
-        for (var x = -1; x < 2; x++) {
-            for (var y = -1; y < 2; y++) {
-                if (collider1.screenPos.x + x == collider2.screenPos.x &&
-                    collider1.screenPos.y + y == collider2.screenPos.y) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return this.grid.comparePositions(collider1.position, collider2.position)
     }
 
     /**
