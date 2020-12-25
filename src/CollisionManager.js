@@ -92,53 +92,15 @@ class CollisionManager {
             boxRenderer.useSpatialHashing()
         boxRenderer.render()
 
-        //  If the circleColliderArray isn't empty.
-        if (this.circleColliderArray.length > 0) {
-            //  Cycle through each collider.
-            this.circleColliderArray.forEach(collider => {
-                ctx.beginPath();
-                //  Draw the circle.
-                ctx.arc(collider.shape.position.x, collider.shape.position.y, collider.shape.radius, 0, 360);
-                //  If the collider is colliding make it [[RED]] otherwise check if it was checked for a collision and if it it was make it [[Yellow]], else it is [[GREEN]].
-                if (collider.colliding === true) {
-                    ctx.fillStyle = this.collisionColour;
-                } else {
-                    if (collider.checkedForCollision === true && this.grid.areDimensionsInitialised === true) {
-                        ctx.fillStyle = this.checkedColour;
-                    } else {
-                        ctx.fillStyle = this.noCollisionColour;
-                    }
-                }
-                ctx.fill();
-            });
-        }
-        //  If the polygonColliderArray isn't empty.
-        if (this.polygonColliderArray.length > 0) {
-            //  Cycle through each collider.
-            this.polygonColliderArray.forEach(collider => {
-                var vertexArray = collider.shape.getVertices();
-                ctx.beginPath();
-                //  Draw all vertices of the polygon.
-                for (var i = 0; i < vertexArray.length; i++) {
-                    if (i === 0) {
-                        ctx.moveTo(vertexArray[i].x, vertexArray[i].y);
-                    } else {
-                        ctx.lineTo(vertexArray[i].x, vertexArray[i].y);
-                    }
-                }
-                //  If the collider is colliding make it [[RED]] otherwise check if it was checked for a collision and if it it was make it [[Yellow]], else it is [[GREEN]].
-                if (collider.colliding === true) {
-                    ctx.fillStyle = this.collisionColour;
-                } else {
-                    if (collider.checkedForCollision === true && this.grid.areDimensionsInitialised === true) {
-                        ctx.fillStyle = this.checkedColour;
-                    } else {
-                        ctx.fillStyle = this.noCollisionColour;
-                    }
-                }
-                ctx.fill()
-            });
-        }
+        var circleRenderer = new CircleColliderRenderer(ctx, this.circleColliderArray)
+        if (this.grid.areDimensionsInitialised)
+            circleRenderer.useSpatialHashing()
+        circleRenderer.render()
+
+        var polygonRenderer = new PolygonColliderRenderer(ctx, this.polygonColliderArray)
+        if (this.grid.areDimensionsInitialised)
+            polygonRenderer.useSpatialHashing()
+        polygonRenderer.render()
     }
 
     /**
