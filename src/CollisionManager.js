@@ -307,11 +307,49 @@ class CollisionManager {
         }
     }
 
+    addCollider(collider) {
+        switch (collider.constructor.name) {
+            case "BoxCollider":
+                this._addBoxCollider(collider)
+                break
+
+            case "CircleCollider":
+                this._addCircleCollider(collider)
+                break
+
+            case "PolygonCollider":
+                this._addPolygonCollider(collider)
+                break
+
+            default:
+                throw new Error("Collider couldn't be added: Unsupported collider type")
+        }
+    }
+
+    removeCollider(collider) {
+        switch (collider.constructor.name) {
+            case "BoxCollider":
+                this._removeBoxCollider(collider)
+                break
+
+            case "CircleCollider":
+                this._removeCircleCollider(collider)
+                break
+
+            case "PolygonCollider":
+                this._removePolygonCollider(collider)
+                break
+
+            default:
+                throw new Error("Collider couldn't be removed: Unsupported collider type")
+        }
+    }
+
     /**
      * Adds a boxCollider to boxColliderArray.
      * @param {BoxCollider} boxCollider 
      */
-    addBoxCollider(boxCollider) {
+    _addBoxCollider(boxCollider) {
         this.boxColliderArray.push(boxCollider);
     }
 
@@ -319,7 +357,7 @@ class CollisionManager {
      * Removes a boxCollider from boxColliderArray.
      * @param {BoxCollider} boxCollider 
      */
-    removeBoxCollider(boxCollider) {
+    _removeBoxCollider(boxCollider) {
         var index = this.boxColliderArray.indexOf(boxCollider);
         if (index > -1) {
             this.boxColliderArray.splice(index, 1);
@@ -330,7 +368,7 @@ class CollisionManager {
      * Adds a circleCollider to circleColliderArray
      * @param {CircleCollider} circleCollider 
      */
-    addCircleCollider(circleCollider) {
+    _addCircleCollider(circleCollider) {
         this.circleColliderArray.push(circleCollider);
     }
 
@@ -338,7 +376,7 @@ class CollisionManager {
      * Removes a circleCollider from circleColliderArray.
      * @param {CircleCollider} circleCollider 
      */
-    removeCircleCollider(circleCollider) {
+    _removeCircleCollider(circleCollider) {
         var index = this.circleColliderArray.indexOf(circleCollider);
         if (index > -1) {
             this.circleColliderArray.splice(index, 1);
@@ -349,7 +387,7 @@ class CollisionManager {
      * Adds a polygonCollider to polygonColliderArray
      * @param {PolygonCollider} polygonCollider 
      */
-    addPolygonCollider(polygonCollider) {
+    _addPolygonCollider(polygonCollider) {
         this.polygonColliderArray.push(polygonCollider)
     }
 
@@ -357,7 +395,7 @@ class CollisionManager {
      * Removes a polygonCollider from polygonColliderArray.
      * @param {PolygonCollider} polygonCollider 
      */
-    removePolygonCollider(polygonCollider) {
+    _removePolygonCollider(polygonCollider) {
         var index = this.polygonColliderArray.indexOf(polygonCollider);
         if (index > -1) {
             this.polygonColliderArray.splice(index, 1);
