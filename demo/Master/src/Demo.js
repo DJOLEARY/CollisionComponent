@@ -3,12 +3,12 @@ class Demo {
     static _USE_SPATIAL_HASHING = true
     static _NUM_OF_NPCS = 1000
 
-    static PLAYER = {}
+    static _PLAYER = {}
 
     constructor() {
         if (Demo._USE_SPATIAL_HASHING) {
-            this._gridHeight = 50
-            this._gridWidth = 50
+            this._gridHeight = 100
+            this._gridWidth = 100
         }
     }
 
@@ -32,8 +32,8 @@ class Demo {
         if (Demo._USE_SPATIAL_HASHING)
             this._collisionManager.useSpatialHashing(this._gridHeight, this._gridWidth)
 
-        Demo.PLAYER = new BoxCollider(new Vector2(0, 0), 50, 50, ["player"])
-        this._collisionManager.addBoxCollider(Demo.PLAYER)
+        Demo._PLAYER = new Player()
+        this._collisionManager.addCollider(Demo._PLAYER.collider)
 
         var npcRadius = 10
         var npcObjectTags = ["npc"]
@@ -41,7 +41,7 @@ class Demo {
         for (var i = 0; i < Demo._NUM_OF_NPCS; i++) {
             var position = new Vector2(Math.random() * window.innerWidth, Math.random() * window.innerHeight + window.innerHeight / 2)
             var npcCollider = new CircleCollider(position, npcRadius, npcObjectTags, npcIgnoreTags)
-            this._collisionManager.addCircleCollider(npcCollider)
+            this._collisionManager.addCollider(npcCollider)
         }
 
         this._initEventListeners()
@@ -76,55 +76,47 @@ class Demo {
 
             switch (event.code) {
                 case "KeyW":
-                    Demo.PLAYER.move(0, -5)
+                    Demo._PLAYER.move(0, -5)
                     break
 
                 case "KeyS":
-                    Demo.PLAYER.move(0, 5)
+                    Demo._PLAYER.move(0, 5)
                     break
 
                 case "KeyA":
-                    Demo.PLAYER.move(-5, 0)
+                    Demo._PLAYER.move(-5, 0)
                     break
 
                 case "KeyD":
-                    Demo.PLAYER.move(5, 0)
+                    Demo._PLAYER.move(5, 0)
                     break
 
                 case "KeyQ":
-                    if (Demo.PLAYER instanceof PolygonCollider)
-                        Demo.PLAYER.rotate(-5)
+                    Demo._PLAYER.rotate(-5)
                     break
 
                 case "KeyE":
-                    if (Demo.PLAYER instanceof PolygonCollider)
-                        Demo.PLAYER.rotate(5)
+                    Demo._PLAYER.rotate(5)
                     break
 
                 case "KeyR":
-                    Demo.PLAYER.scale(2)
+                    Demo._PLAYER.scale(2)
                     break
 
                 case "KeyF":
-                    Demo.PLAYER.scale(0.5)
+                    Demo._PLAYER.scale(0.5)
                     break
 
                 case "Digit1":
-                    if (Demo.PLAYER instanceof BoxCollider)
-                        break
-                    // todo Swap player to BoxCollider
+                    Demo._PLAYER.convertToBoxCollider()
                     break
 
                 case "Digit2":
-                    if (Demo.PLAYER instanceof CircleCollider)
-                        break
-                    // todo Swap player to CircleCollider
+                    Demo._PLAYER.convertToCircleCollider()
                     break
 
                 case "Digit3":
-                    if (Demo.PLAYER instanceof PolygonCollider)
-                        break
-                    // todo Swap player to PolygonCollider
+                    Demo._PLAYER.convertToPolygonCollider()
                     break
             }
 
@@ -133,10 +125,20 @@ class Demo {
     }
 
     update() {
+        if (Demo._PLAYER.refreshCollider)
+            this._refreshPlayerCollider()
+
         this._collisionManager.checkAllColliders();
         this._render();
 
         window.requestAnimationFrame(this.update.bind(this));
+    }
+
+    _refreshPlayerCollider() {
+        this._collisionManager.removeCollider(Demo._PLAYER.previousCollider)
+        Demo._PLAYER.previousCollider = Demo._PLAYER.collider
+
+        this._collisionManager.addCollider(Demo._PLAYER.collider)
     }
 
     _render() {
