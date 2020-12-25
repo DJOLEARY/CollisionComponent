@@ -136,7 +136,7 @@ class Demo {
 
     _refreshPlayerCollider() {
         this._collisionManager.removeCollider(Demo._PLAYER.previousCollider)
-        Demo._PLAYER.previousCollider = Demo._PLAYER.collider
+        Demo._PLAYER.previousCollider = null
 
         this._collisionManager.addCollider(Demo._PLAYER.collider)
     }

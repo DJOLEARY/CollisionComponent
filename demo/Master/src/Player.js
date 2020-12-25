@@ -8,7 +8,7 @@ class Player {
         var ignoreTags = []
         this.collider = new BoxCollider(position, width, height, objectTags, ignoreTags)
 
-        this.previousCollider = this.collider
+        this.previousCollider = null
     }
 
     convertToBoxCollider() {
@@ -51,7 +51,7 @@ class Player {
     }
 
     get refreshCollider() {
-        return this.previousCollider.constructor.name !== this.collider.constructor.name
+        return this.previousCollider && this.previousCollider.constructor.name !== this.collider.constructor.name
     }
 
     move(x, y) {
