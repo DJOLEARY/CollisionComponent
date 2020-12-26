@@ -1,4 +1,4 @@
-class ColliderTags {
+class Tags {
 
     objectTags = []
     ignoreTags = []
