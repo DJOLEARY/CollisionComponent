@@ -17,8 +17,8 @@ class Polygon extends Shape {
      * @param {Vector2[]} vertices 
      */
     constructor(vertices) {
-        super(vertices[0]); //  Call the parent classes constructor.
-        this.setVertices(vertices);
+        super(vertices[0])
+        this.vertices = vertices
     }
 
     /**
@@ -55,25 +55,6 @@ class Polygon extends Shape {
     }
 
     /**
-     * Returns the vertices of the shape.
-     * @returns {Vector2[]}
-     */
-    getVertices() {
-        if (this.vertices === undefined) {
-            this.vertices = [];
-        }
-        return this.vertices;
-    }
-
-    /**
-     * Sets the vertices of the shape.
-     * @param {Vector2[]} vertices 
-     */
-    setVertices(vertices) {
-        this.vertices = vertices;
-    }
-
-    /**
      * Adds a single vertex to the shape.
      * @param {Vector2} vertex 
      */
@@ -90,45 +71,6 @@ class Polygon extends Shape {
         if (index > -1) {
             this.vertices.splice(index, 1);
         }
-    }
-
-    /**
-     * Projects the vertices of the shape onto the axis.
-     * @param {Vector2} axis 
-     * @return {Array}
-     */
-    project(axis) {
-        var min = axis.dotProduct(this.vertices[0]);
-        var max = min;
-        for (var i = 1; i < this.vertices.length; i++) {
-            var p = axis.dotProduct(this.vertices[i]);
-            if (p < min) {
-                min = p;
-            } else if (p > max) {
-                max = p;
-            }
-        }
-        var proj = [];
-        proj['min'] = min;
-        proj['max'] = max;
-        return proj;
-    }
-
-    /**
-     * Returns an array of the axes the shapes must be projected onto.
-     * @returns {Vector2[]}
-     * @return {Array}
-     */
-    Axes() {
-        var axes = [];
-        for (var i = 0; i < this.vertices.length; i++) {
-            var p1 = this.vertices[i];
-            var p2 = this.vertices[i + 1 == this.vertices.length ? 0 : i + 1];
-            var edge = p1.subtract(p2);
-            var normal = edge.perp();
-            axes[i] = normal;
-        }
-        return axes
     }
 
     /**
