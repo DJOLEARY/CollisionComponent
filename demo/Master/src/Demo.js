@@ -47,7 +47,7 @@ class Demo {
         ]
         var polygonObjectTags = ["rock"]
         var polygonIgnoreTags = []
-        this._collisionManager.addCollider(new PolygonCollider(polygonVertices, polygonObjectTags, polygonIgnoreTags));
+        this._collisionManager.addCollider(new PolygonCollider(polygonVertices, polygonObjectTags, polygonIgnoreTags))
 
         var npcRadius = 10
         var npcObjectTags = ["npc"]
@@ -85,7 +85,7 @@ class Demo {
     _initEventListeners() {
         window.addEventListener("keydown", function (event) {
             if (event.defaultPrevented)
-                return;
+                return
 
             switch (event.code) {
                 case "KeyW":
@@ -133,18 +133,18 @@ class Demo {
                     break
             }
 
-            event.preventDefault();
-        }, true);
+            event.preventDefault()
+        }, true)
     }
 
     update() {
-        if (Demo._PLAYER.refreshCollider)
+        if (Demo._PLAYER.needToRefreshCollider)
             this._refreshPlayerCollider()
 
-        this._collisionManager.checkAllColliders();
-        this._render();
+        this._collisionManager.checkAllColliders()
+        this._render()
 
-        window.requestAnimationFrame(this.update.bind(this));
+        window.requestAnimationFrame(this.update.bind(this))
     }
 
     _refreshPlayerCollider() {

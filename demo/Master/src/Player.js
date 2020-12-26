@@ -50,7 +50,7 @@ class Player {
         this.collider = newCollider
     }
 
-    get refreshCollider() {
+    get needToRefreshCollider() {
         return this.previousCollider && this.previousCollider.constructor.name !== this.collider.constructor.name
     }
 
