@@ -35,13 +35,26 @@ class Demo {
         Demo._PLAYER = new Player()
         this._collisionManager.addCollider(Demo._PLAYER.collider)
 
+        var polygonVertices = [
+            new Vector2(600, 25), 
+            new Vector2(610, 10), 
+            new Vector2(630, 40), 
+            new Vector2(650, 70), 
+            new Vector2(660, 90), 
+            new Vector2(640, 120), 
+            new Vector2(620, 150), 
+            new Vector2(600, 80)
+        ]
+        var polygonObjectTags = ["rock"]
+        var polygonIgnoreTags = []
+        this._collisionManager.addCollider(new PolygonCollider(polygonVertices, polygonObjectTags, polygonIgnoreTags));
+
         var npcRadius = 10
         var npcObjectTags = ["npc"]
         var npcIgnoreTags = ["npc"]
         for (var i = 0; i < Demo._NUM_OF_NPCS; i++) {
             var position = new Vector2(Math.random() * window.innerWidth, Math.random() * window.innerHeight + window.innerHeight / 2)
-            var npcCollider = new CircleCollider(position, npcRadius, npcObjectTags, npcIgnoreTags)
-            this._collisionManager.addCollider(npcCollider)
+            this._collisionManager.addCollider(new CircleCollider(position, npcRadius, npcObjectTags, npcIgnoreTags))
         }
 
         this._initEventListeners()
