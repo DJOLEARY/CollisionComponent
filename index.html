@@ -1,43 +1,72 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mocha Spec Runner</title>
-  <link rel="stylesheet" href="bower_components/mocha/mocha.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mocha Spec Runner</title>
+    <link rel="stylesheet" href="bower_components/mocha/mocha.css">
 </head>
+
 <body>
-  <div id="mocha"></div>
-  <script src="bower_components/mocha/mocha.js"></script>
-  <script>mocha.setup('')</script>
-  <script src="bower_components/chai/chai.js"></script>
-  <script>
-    var assert = chai.assert;
-    var expect = chai.expect;
-    var should = chai.should();
-  </script>
+    <div id="mocha"></div>
+    <script src="bower_components/mocha/mocha.js"></script>
+    <script>
+        mocha.setup('')
+    </script>
+    <script src="bower_components/chai/chai.js"></script>
+    <script>
+        var assert = chai.assert;
+        var expect = chai.expect;
+        var should = chai.should();
+    </script>
 
-  <!-- include source files here... -->
-  <script src="src/Vector2.js"></script>
-  <script src="src/MathHelper.js"></script>
+    <!-- include source files here... -->
+    <!-- Error Classes -->
+    <script src="src/Error/AbstractClassError.js"></script>
+    <script src="src/Error/AbstractFunctionError.js"></script>
 
-  <script src="src/Shape/Shape.js"></script>
-  <script src="src/Shape/Circle.js"></script>
-  <script src="src/Shape/Rectangle.js"></script>
-  <script src="src/Shape/Polygon.js"></script>
+    <!-- Helper Classes -->
+    <script src="src/Vector2.js"></script>
+    <script src="src/MathHelper.js"></script>
 
-  <script src="src/Collider/ColliderTags.js"></script>
+    <!-- Shape Classes -->
+    <script src="src/Shape/Shape.js"></script>
+    <script src="src/Shape/Rectangle.js"></script>
+    <script src="src/Shape/Circle.js"></script>
+    <script src="src/Shape/Polygon.js"></script>
 
-  <script src="src/Collider/Collider.js"></script>
-  <script src="src/Collider/CircleCollider.js"></script>
-  <script src="src/Collider/BoxCollider.js"></script>
-  <script src="src/Collider/PolygonCollider.js"></script>
+    <!-- Collider Classes -->
+    <script src="src/Collider/ColliderTags.js"></script>
+    <script src="src/Collider/Collider.js"></script>
+    <script src="src/Collider/BoxCollider.js"></script>
+    <script src="src/Collider/CircleCollider.js"></script>
+    <script src="src/Collider/PolygonCollider.js"></script>
 
-  <script src="src/CollisionManager.js"></script>
+    <!-- Render Classes -->
+    <script src="src/Render/AbstractRenderer.js"></script>
+    <script src="src/Render/SpatialHashingGridRenderer.js"></script>
+    <script src="src/Render/Collider/AbstractColliderRenderer.js"></script>
+    <script src="src/Render/Collider/BoxColliderRenderer.js"></script>
+    <script src="src/Render/Collider/CircleColliderRenderer.js"></script>
+    <script src="src/Render/Collider/PolygonColliderRenderer.js"></script>
 
-  <!-- include test files here... -->
-  <script src="test/CollisionComponent.js"></script>
+    <!-- Spatial Hashing Classes -->
+    <script src="src/SpatialHashingGrid.js"></script>
 
-  <script>mocha.run()</script>
+    <!-- Collision Classes -->
+    <script src="src/Collision/AbstractCollision.js"></script>
+    <script src="src/Collision/AxisAlignedBoundingBox.js"></script>
+    <script src="src/Collision/CircleCollision.js"></script>
+    <script src="src/Collision/SeparatingAxisTheorem.js"></script>
+    <script src="src/CollisionManager.js"></script>
+
+    <!-- include test files here... -->
+    <script src="test/CollisionComponent.js"></script>
+
+    <script>
+        mocha.run()
+    </script>
 </body>
+
 </html>
