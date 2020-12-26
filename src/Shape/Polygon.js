@@ -132,13 +132,27 @@ class Polygon extends Shape {
      * @param {Integer} y 
      */
     move(x, y) {
-        this.vertices.forEach(vertex => {
-            vertex.x += x;
-            vertex.y += y;
-        });
+        this.position = new Vector2(this.position.x + x, this.position.y + y)
     }
 
+    get position() {
+        return this.vertices.length > 0 ? this.vertices[0] : new Vector2(0, 0)
+    }
 
+    set position(newPos) {  
+        if (!this.vertices)
+            return
+        
+        var differenceVector = [];
+        for (var i = 0, j = 1; j < this.vertices.length; i++, j++) {
+            differenceVector.push(this.vertices[j].subtract(this.vertices[i]));
+        }
+
+        this.vertices[0] = newPos;
+        for (var i = 1; i < this.vertices.length; i++) {
+            this.vertices[i] = this.vertices[i - 1].add(differenceVector[i - 1]);
+        }
+    }
 
     /**
      * 
