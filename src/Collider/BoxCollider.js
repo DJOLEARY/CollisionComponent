@@ -1,41 +1,22 @@
 class BoxCollider extends Collider {
-    /**
-     * The default constructor for the class.
-     * @param {Scalar} position 
-     * @param {Scalar} width 
-     * @param {Scalar} height 
-     * @param {String[]} objectTags 
-     * @param {String[]} ignoreTags 
-     */
+
     constructor(position, width, height, objectTags = [], ignoreTags = []) {
-        super(new Rectangle(position, width, height), objectTags, ignoreTags); //  Call the parent classes constructor.
+        super(new Rectangle(position, width, height), objectTags, ignoreTags)
     }
 
-    /**
-     * 
-     */
     get width() {
-        return this.shape.width;
+        return this.shape.width
     }
 
-    /**
-     * 
-     */
     get height() {
-        return this.shape.height;
+        return this.shape.height
     }
 
-    /**
-     * 
-     */
     get vertices() {
-        return this.shape.vertices;
+        return this.shape.vertices
     }
 
-    /**
-     * 
-     */
     get centre() {
-        return this.shape.centre;
+        return this.shape.centre
     }
 }

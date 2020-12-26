@@ -1,60 +1,61 @@
 class MathHelper {
-	/**
-	 * Gets the magnitude of the vector.
-	 * @param {Vector2} vec 
-	 * @return {Scalar}
-	 */
-	static magnitude(vec) {
-		return Math.sqrt((vec.x * vec.x) + (vec.y * vec.y));
+
+	static Magnitude(vec) {
+		return Math.sqrt((vec.x * vec.x) + (vec.y * vec.y))
 	}
 
-	/**
-	 * Divides the vector by its magnitude to return the unit vector.
-	 * @param {Vector2} vec
-	 * @return {Vector2} 
-	 */
-	static normalize(vec) {
-		mag = magnitude(vec);
-		normalizedVec.x = vec.x / mag;
-		normalizedVec.y = vec.y / mag;
-		return normalizedVec;
+	static Normalize(vec) {
+		mag = MathHelper.Magnitude(vec)
+		normalizedVec.x = vec.x / mag
+		normalizedVec.y = vec.y / mag
+		return normalizedVec
 	}
 
-	/**
-	 * Returns the distance between vec1 and vec2.
-	 * @param {Vector2} vec1 
-	 * @param {Vector2} vec2 
-	 * @return {Scalar}
-	 */
-	static distance(vec1, vec2) {
-		return Math.sqrt(Math.pow(vec2.x - vec1.x, 2) + Math.pow(vec2.y - vec1.y, 2));
-	};
-
-	/**
-	 * Returns the squared distance between vec1 and vec2.
-	 * @param {Vector2} vec1 
-	 * @param {Vector2} vec2 
-	 * @return {Scalar}
-	 */
-	static distanceSquared(vec1, vec2) {
-		return Math.pow(vec2.x - vec1.x, 2) + Math.pow(vec2.y - vec1.y, 2);
+	static Distance(vec1, vec2) {
+		return Math.sqrt(MathHelper.DistanceSquared(vec1, vec2))
 	}
 
-	/**
-	 * Converts degrees to radians.
-	 * @param {Scalar} angle 
-	 * @return {Scalar}
-	 */
-	static degreesToRadians(angle) {
-		return angle * (Math.PI / 180);
+	static DistanceSquared(vec1, vec2) {
+		return Math.pow(vec2.x - vec1.x, 2) + Math.pow(vec2.y - vec1.y, 2)
 	}
 
-	/**
-	 * Converts radians to degrees.
-	 * @param {Scalar} angle 
-	 * @return {Scalar}
-	 */
-	static radiansToDegrees(angle) {
-		return angle * (180 / Math.PI);
+	static DegreesToRadians(angle) {
+		return angle * (Math.PI / 180)
 	}
+
+	static RadiansToDegrees(angle) {
+		return angle * (180 / Math.PI)
+	}
+
+	static MultiplyMatrices(m1, m2) {
+		var result = []
+		for (var i = 0; i < m1.length; i++) {
+			result[i] = []
+			for (var j = 0; j < m2[0].length; j++) {
+				var sum = 0
+				for (var k = 0; k < m1[0].length; k++) {
+					sum += m1[i][k] * m2[k][j]
+				}
+				result[i][j] = sum
+			}
+		}
+		return result
+	}
+
+	static AddMatrices(m1, m2) {
+		var result = []
+		for (var i = 0; i < m1.length; i++) {
+			result[i] = [m1[i][0] + m2[i][0], m1[i][1] + m2[i][1]]
+		}
+		return result
+	}
+
+	static SubMatrices(m1, m2) {
+		var result = []
+		for (var i = 0; i < m1.length; i++) {
+			result[i] = [m1[i][0] - m2[i][0], m1[i][1] - m2[i][1]]
+		}
+		return result
+	}
+
 }

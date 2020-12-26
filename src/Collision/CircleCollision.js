@@ -5,7 +5,7 @@ class CircleCollision extends AbstractCollision {
     }
 
     testForCollision() {
-        var distance = MathHelper.distance(this.collider1.position, this.collider2.position)
+        var distance = MathHelper.Distance(this.collider1.position, this.collider2.position)
         return distance < this.collider1.radius + this.collider2.radius
     }
 }

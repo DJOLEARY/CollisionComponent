@@ -7,6 +7,6 @@ class CircleColliderRenderer extends AbstractColliderRenderer {
     drawShapeToContext(collider) {
         var position = collider.position
         var radius = collider.radius
-        this.context.arc(position.x, position.y, radius, 0, 360);
+        this.context.arc(position.x, position.y, radius, 0, 360)
     }
 }

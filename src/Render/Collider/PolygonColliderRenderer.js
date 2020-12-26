@@ -5,7 +5,7 @@ class PolygonColliderRenderer extends AbstractColliderRenderer {
     }
 
     drawShapeToContext(collider) {
-        var vertices = collider.vertices;
+        var vertices = collider.vertices
         vertices.forEach((vertex, index) => {
             if (index === 0) {
                 this.context.moveTo(vertex.x, vertex.y)

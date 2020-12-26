@@ -1,16 +1,11 @@
 class PolygonCollider extends Collider {
-    /**
-     * The default constructor of the class.
-     * @param {Vector2[]} vertices 
-     * @param {String[]} objectTags
-     * @param {String[]} ignoreTags
-     */
+
     constructor(vertices, objectTags = [], ignoreTags = []) {
-        super(new Polygon(vertices), objectTags, ignoreTags); //  Call the parent classes constructor.
+        super(new Polygon(vertices), objectTags, ignoreTags)
     }
 
     get vertices() {
-        return this.shape.vertices;
+        return this.shape.vertices
     }
 
     get position() {
@@ -26,6 +21,6 @@ class PolygonCollider extends Collider {
      * @param {Float} angle 
      */
     rotate(angle) {
-        this.shape.rotate(angle);
+        this.shape.rotate(angle)
     }
 }

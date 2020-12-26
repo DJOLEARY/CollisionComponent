@@ -15,7 +15,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
         if (!projectionsOverlap2)
             return false
         
-        return true;
+        return true
     }
 
     _compareProjections(collider1, collider2, axes) {
@@ -24,7 +24,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
             var proj1 = this._projectOntoAxis(collider1, axis)
             var proj2 = this._projectOntoAxis(collider2, axis)
             if (!this._doProjectionsOverlap(proj1, proj2))
-                return false;
+                return false
         }
         return true
     }

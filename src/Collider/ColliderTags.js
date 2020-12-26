@@ -1,7 +1,7 @@
 class ColliderTags {
 
-    objectTags = [];
-    ignoreTags = [];
+    objectTags = []
+    ignoreTags = []
 
     constructor(objectTags, ignoreTags) {
         this.objectTags = objectTags

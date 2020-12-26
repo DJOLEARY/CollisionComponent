@@ -28,7 +28,7 @@ class AbstractColliderRenderer extends AbstractRenderer {
             }
 
             this.context.fill()
-        });
+        })
     }
 
     drawShapeToContext() {

@@ -1,10 +1,10 @@
 class Polygon extends Shape {
 
     static CreateOffsetVertexArray(startPosition, offsets) {
-        var result = [startPosition];
+        var result = [startPosition]
         var lastPosition = startPosition
         for (let i = 0; i < offsets.length; i++) {
-            const offset = offsets[i];
+            const offset = offsets[i]
             var nextPosition = lastPosition.add(offset)
             result.push(nextPosition)
             lastPosition = nextPosition
@@ -12,125 +12,95 @@ class Polygon extends Shape {
         return result
     }
 
-    /**
-     * The default constructor of the class.
-     * @param {Vector2[]} vertices 
-     */
     constructor(vertices) {
         super(vertices[0])
         this.vertices = vertices
     }
 
-    /**
-     * Returns the centre of the shape.
-     * @return {Vector2}
-     */
     getCentre() {
         //  https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
-        var vertexArrayCopy = [];
+        var vertexArrayCopy = []
         this.vertices.forEach(vertex => {
-            vertexArrayCopy.push(vertex);
-        });
-        var first = vertexArrayCopy[0];
-        var last = vertexArrayCopy[vertexArrayCopy.length - 1];
+            vertexArrayCopy.push(vertex)
+        })
+        var first = vertexArrayCopy[0]
+        var last = vertexArrayCopy[vertexArrayCopy.length - 1]
         //  Close the shape if not already closed.
-        if (first != last) {
-            vertexArrayCopy.push(first);
-        }
-        var twiceArea = 0;
-        var x = 0;
-        var y = 0;
-        var numOfVertices = vertexArrayCopy.length;
-        var f = 0;
+        if (first != last)
+            vertexArrayCopy.push(first)
+
+        var twiceArea = 0
+        var x = 0
+        var y = 0
+        var numOfVertices = vertexArrayCopy.length
+        var f = 0
         for (var i = 0, j = numOfVertices - 1; i < numOfVertices; j = i++) {
-            var p1 = vertexArrayCopy[i];
-            var p2 = vertexArrayCopy[j];
-            f = (p1.y - first.y) * (p2.x - first.x) - (p2.y - first.y) * (p1.x - first.x);
-            twiceArea += f;
-            x += (p1.x + p2.x - 2 * first.x) * f;
-            y += (p1.y + p2.y - 2 * first.y) * f;
+            var p1 = vertexArrayCopy[i]
+            var p2 = vertexArrayCopy[j]
+            f = (p1.y - first.y) * (p2.x - first.x) - (p2.y - first.y) * (p1.x - first.x)
+            twiceArea += f
+            x += (p1.x + p2.x - 2 * first.x) * f
+            y += (p1.y + p2.y - 2 * first.y) * f
         }
-        f = twiceArea * 3;
-        return new Vector2(x / f + first.x, y / f + first.y);
+        f = twiceArea * 3
+        return new Vector2(x / f + first.x, y / f + first.y)
     }
 
-    /**
-     * Adds a single vertex to the shape.
-     * @param {Vector2} vertex 
-     */
     addVertex(vertex) {
-        this.vertices.push(vertex);
+        this.vertices.push(vertex)
     }
 
-    /**
-     * Removes a vertex from vertices.
-     * @param {Vector2} vertex 
-     */
     removeVertex(vertex) {
-        var index = this.vertices.indexOf(vertex);
-        if (index > -1) {
-            this.vertices.splice(index, 1);
-        }
+        var index = this.vertices.indexOf(vertex)
+        if (index > -1)
+            this.vertices.splice(index, 1)
     }
 
-    /**
-     * Rotates the Polygon by the angle.
-     * @param {Float} angle 
-     */
     rotate(angle) {
-        var angleInRadians = MathHelper.degreesToRadians(angle);
-        var vertexMatrix = [];
+        var angleInRadians = MathHelper.DegreesToRadians(angle)
+        var vertexMatrix = []
         this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y]);
-        });
-        var centre = this.getCentre();
-        var centreMatrix = [];
+            vertexMatrix.push([vertex.x, vertex.y])
+        })
+        var centre = this.getCentre()
+        var centreMatrix = []
         for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y]);
+            centreMatrix.push([centre.x, centre.y])
         }
         var rotationMatrix = [
             [Math.cos(angleInRadians), Math.sin(angleInRadians)],
             [-Math.sin(angleInRadians), Math.cos(angleInRadians)]
-        ];
-        var subResultMatrix = this.subMatrices(vertexMatrix, centreMatrix);
-        var multiplyMatrixResult = this.multiplyMatrices(subResultMatrix, rotationMatrix);
-        var newVertexMatrix = this.addMatrices(multiplyMatrixResult, centreMatrix);
+        ]
+        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
+        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, rotationMatrix)
+        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
         for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1]);
+            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
         }
     }
 
-    /**
-     * Scales the Polygon keeping the centre point the same.
-     * @param {Float} scale 
-     */
     scale(scale) {
-        var vertexMatrix = [];
+        var vertexMatrix = []
         this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y]);
-        });
-        var centre = this.getCentre();
-        var centreMatrix = [];
+            vertexMatrix.push([vertex.x, vertex.y])
+        })
+        var centre = this.getCentre()
+        var centreMatrix = []
         for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y]);
+            centreMatrix.push([centre.x, centre.y])
         }
         var scaleMatrix = [
             [scale, 0],
             [0, scale]
-        ];
-        var subResultMatrix = this.subMatrices(vertexMatrix, centreMatrix);
-        var multiplyMatrixResult = this.multiplyMatrices(subResultMatrix, scaleMatrix);
-        var newVertexMatrix = this.addMatrices(multiplyMatrixResult, centreMatrix);
+        ]
+        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
+        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, scaleMatrix)
+        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
         for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1]);
+            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
         }
     }
 
-    /**
-     * Adds x and y to their respective object values.
-     * @param {Integer} x 
-     * @param {Integer} y 
-     */
     move(x, y) {
         this.position = new Vector2(this.position.x + x, this.position.y + y)
     }
@@ -139,68 +109,19 @@ class Polygon extends Shape {
         return this.vertices.length > 0 ? this.vertices[0] : new Vector2(0, 0)
     }
 
-    set position(newPos) {  
+    set position(newPos) {
         if (!this.vertices)
             return
-        
-        var differenceVector = [];
+
+        var differenceVector = []
         for (var i = 0, j = 1; j < this.vertices.length; i++, j++) {
-            differenceVector.push(this.vertices[j].subtract(this.vertices[i]));
+            differenceVector.push(this.vertices[j].subtract(this.vertices[i]))
         }
 
-        this.vertices[0] = newPos;
+        this.vertices[0] = newPos
         for (var i = 1; i < this.vertices.length; i++) {
-            this.vertices[i] = this.vertices[i - 1].add(differenceVector[i - 1]);
+            this.vertices[i] = this.vertices[i - 1].add(differenceVector[i - 1])
         }
-    }
-
-    /**
-     * 
-     * @param {Scalar[][]} m1 
-     * @param {Scalar[][]} m2 
-     * @return {Scalar[][]}
-     */
-    multiplyMatrices(m1, m2) {
-        var result = [];
-        for (var i = 0; i < m1.length; i++) {
-            result[i] = [];
-            for (var j = 0; j < m2[0].length; j++) {
-                var sum = 0;
-                for (var k = 0; k < m1[0].length; k++) {
-                    sum += m1[i][k] * m2[k][j];
-                }
-                result[i][j] = sum;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param {Scalar[][]} m1 
-     * @param {Scalar[][]} m2 
-     * @return {Scalar[][]}
-     */
-    addMatrices(m1, m2) {
-        var result = [];
-        for (var i = 0; i < m1.length; i++) {
-            result[i] = [m1[i][0] + m2[i][0], m1[i][1] + m2[i][1]];
-        }
-        return result;
-    }
-
-    /**
-     * 
-     * @param {Scalar[][]} m1 
-     * @param {Scalar[][]} m2
-     * @return {Scalar[][]} 
-     */
-    subMatrices(m1, m2) {
-        var result = [];
-        for (var i = 0; i < m1.length; i++) {
-            result[i] = [m1[i][0] - m2[i][0], m1[i][1] - m2[i][1]];
-        }
-        return result;
     }
 
 }
