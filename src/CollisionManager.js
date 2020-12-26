@@ -542,14 +542,7 @@ class CollisionManager {
      * @return {Boolean}
      */
     static AxisAlignedBoundingBox(collider1, collider2) {
-        if (collider1.shape.position.x <= collider2.shape.position.x + collider2.shape.width &&
-            collider1.shape.position.x + collider1.shape.width >= collider2.shape.position.x &&
-            collider1.shape.position.y <= collider2.shape.position.y + collider2.shape.height &&
-            collider1.shape.position.y + collider1.shape.height >= collider2.shape.position.y) {
-            return true;
-        } else {
-            return false;
-        }
+        return new AxisAlignedBoundingBox(collider1, collider2).testForCollision()
     }
 
     /**
@@ -559,12 +552,7 @@ class CollisionManager {
      * @return {Boolean}
      */
     static CircleCollision(collider1, collider2) {
-        var distance = MathHelper.distance(collider1.shape.position, collider2.shape.position);
-        if (distance < collider1.shape.radius + collider2.shape.radius) {
-            return true;
-        } else {
-            return false;
-        }
+        return new CircleCollision(collider1, collider2).testForCollision()
     }
 
     /**
@@ -574,45 +562,6 @@ class CollisionManager {
      * @return {Boolean}
      */
     static SeperatingAxisTheorem(collider1, collider2) {
-        //  Get the axes
-        var axes1 = collider1.shape.Axes();
-        var axes2 = collider2.shape.Axes();
-        //  Loop over the axes for polygon1
-        for (var i = 0; i < axes1.length; i++) {
-            var axis = axes1[i];
-            //  Project both polygons onto the axis
-            var p1 = collider1.shape.project(axis);
-            var p2 = collider2.shape.project(axis);
-            //  Do the projections overlap? if no we can exit
-            if (!CollisionManager.Overlaps(p1, p2)) {
-                return false;
-            }
-        }
-        //  Loop over the axes for polygon2
-        for (var i = 0; i < axes2.length; i++) {
-            var axis = axes2[i];
-            //  Project both polygons onto the axis
-            var p1 = collider1.shape.project(axis);
-            var p2 = collider2.shape.project(axis);
-            //  Do the projections overlap? if no we can exit
-            if (!CollisionManager.Overlaps(p1, p2)) {
-                return false;
-            }
-        }
-        //  If all axes have overlap then the polygons are colliding
-        return true;
-    }
-
-    /**
-     * Checks if the projections overlap
-     * @param {Array} proj1 
-     * @param {Array} proj2 
-     * @return {Boolean}
-     */
-    static Overlaps(proj1, proj2) {
-        if (proj1['min'] <= proj2['max'] && proj2['min'] <= proj1['max']) {
-            return true;
-        }
-        return false;
+        return new SeperatingAxisTheorem(collider1, collider2).testForCollision()
     }
 }
