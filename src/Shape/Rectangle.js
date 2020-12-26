@@ -16,6 +16,10 @@ class Rectangle extends AbstractShape {
         this.height *= scale
     }
 
+    render(context) {
+        context.rect(this.position.x, this.position.y, this.width, this.height)
+    }
+
     get vertices() {
         var result = []
         result.push(this.position)

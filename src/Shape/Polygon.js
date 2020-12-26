@@ -76,6 +76,16 @@ class Polygon extends AbstractShape {
         }
     }
 
+    render(context) {
+        this.vertices.forEach((vertex, index) => {
+            if (index === 0) {
+                context.moveTo(vertex.x, vertex.y)
+                return
+            }
+            context.lineTo(vertex.x, vertex.y)
+        }, this)
+    }
+
     get centre() {
         //  https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
         var vertexArrayCopy = []

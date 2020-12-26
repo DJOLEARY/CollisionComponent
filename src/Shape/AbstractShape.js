@@ -18,4 +18,8 @@ class AbstractShape {
     rotate(degrees){
         throw new AbstractFunctionError()
     }
+
+    render(context) {
+        throw new AbstractFunctionError()
+    }
 }
