@@ -1,35 +1,29 @@
 class Player {
 
     constructor() {
-        var position = new Vector2(0, 0)
-        var width = 50
-        var height = 50
-        var objectTags = ["player"]
-        var ignoreTags = []
-        this.collider = new BoxCollider(position, width, height, objectTags, ignoreTags)
-
-        this.previousCollider = null
+        var shape = new Rectangle(new Vector2(0, 0), 50, 50)
+        var tags = new Tags(["player"], [])
+        this.collider = new Collider(shape, tags)
     }
 
-    convertToBoxCollider() {
-        if (this.collider instanceof BoxCollider)
+    convertToRectangle() {
+        if (this.collider.shape instanceof Rectangle)
             return
 
-        var width = 50
-        var height = 50
-        this._replaceCollider(new BoxCollider(this.collider.position, width, height, this.collider.objectTags, this.collider.ignoreTags))
+        var shape = new Rectangle(this.collider.position, 50, 50)
+        this.collider.shape = shape
     }
 
-    convertToCircleCollider() {
-        if (this.collider instanceof CircleCollider)
+    convertToCircle() {
+        if (this.collider.shape instanceof Circle)
             return
 
-        var radius = 25
-        this._replaceCollider(new CircleCollider(this.collider.position, radius, this.collider.objectTags, this.collider.ignoreTags))
+        var shape = new Circle(this.collider.position, 25)
+        this.collider.shape = shape
     }
 
-    convertToPolygonCollider() {
-        if (this.collider instanceof PolygonCollider)
+    convertToConvexPolygon() {
+        if (this.collider.shape instanceof Polygon)
             return
 
         var offsets = [
@@ -42,16 +36,8 @@ class Player {
             new Vector2(-20, -70),
         ]
         var vertices = Polygon.CreateOffsetVertexArray(this.collider.position, offsets)
-        this._replaceCollider(new PolygonCollider(vertices, this.collider.objectTags, this.collider.ignoreTags))
-    }
-
-    _replaceCollider(newCollider) {
-        this.previousCollider = this.collider
-        this.collider = newCollider
-    }
-
-    get needToRefreshCollider() {
-        return this.previousCollider && this.previousCollider.constructor.name !== this.collider.constructor.name
+        var shape = new Polygon(vertices)
+        this.collider.shape = shape
     }
 
     move(x, y) {
@@ -59,7 +45,7 @@ class Player {
     }
 
     rotate(degrees) {
-        if (this.collider instanceof PolygonCollider)
+        if (this.collider.shape instanceof Polygon)
             this.collider.rotate(degrees)
     }
 

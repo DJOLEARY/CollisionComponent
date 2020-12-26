@@ -1,4 +1,4 @@
-class Circle extends Shape {
+class Circle extends AbstractShape {
 
     constructor(position, radius) {
         super(position)

@@ -1,16 +1,10 @@
 class Demo {
 
     static _USE_SPATIAL_HASHING = true
-    static _NUM_OF_NPCS = 1000
 
     static _PLAYER = {}
 
-    constructor() {
-        if (Demo._USE_SPATIAL_HASHING) {
-            this._gridHeight = 100
-            this._gridWidth = 100
-        }
-    }
+    constructor() {}
 
     init() {
         this._initCanvas()
@@ -30,34 +24,41 @@ class Demo {
     _initDemoObjects() {
         this._collisionManager = new CollisionManager()
         if (Demo._USE_SPATIAL_HASHING)
-            this._collisionManager.useSpatialHashing(this._gridHeight, this._gridWidth)
+            this._collisionManager.useSpatialHashing(100, 100)        
 
         Demo._PLAYER = new Player()
         this._collisionManager.addCollider(Demo._PLAYER.collider)
 
+        this._initSeparatingAxisTheoremNpc()
+        this._initSpatialHashingDemoNpcs()
+        this._initEventListeners()
+    }
+
+    _initSeparatingAxisTheoremNpc() {
         var polygonVertices = [
-            new Vector2(600, 25), 
-            new Vector2(610, 10), 
-            new Vector2(630, 40), 
-            new Vector2(650, 70), 
-            new Vector2(660, 90), 
-            new Vector2(640, 120), 
-            new Vector2(620, 150), 
+            new Vector2(600, 25),
+            new Vector2(610, 10),
+            new Vector2(630, 40),
+            new Vector2(650, 70),
+            new Vector2(660, 90),
+            new Vector2(640, 120),
+            new Vector2(620, 150),
             new Vector2(600, 80)
         ]
-        var polygonObjectTags = ["rock"]
-        var polygonIgnoreTags = []
-        this._collisionManager.addCollider(new PolygonCollider(polygonVertices, polygonObjectTags, polygonIgnoreTags))
+        var shape = new Polygon(polygonVertices)
+        var tags = new Tags(["rock"], [])
+        this._collisionManager.addCollider(new Collider(shape, tags))
+    }
 
-        var npcRadius = 10
-        var npcObjectTags = ["npc"]
-        var npcIgnoreTags = ["npc"]
-        for (var i = 0; i < Demo._NUM_OF_NPCS; i++) {
+    _initSpatialHashingDemoNpcs() {
+        var radius = 10
+        var numOfNpcs = 1000
+        for (var i = 0; i < numOfNpcs; i++) {
             var position = new Vector2(Math.random() * window.innerWidth, Math.random() * window.innerHeight + window.innerHeight / 2)
-            this._collisionManager.addCollider(new CircleCollider(position, npcRadius, npcObjectTags, npcIgnoreTags))
+            var shape = new Circle(position, radius)
+            var tags = new Tags(["npc"], ["npc"])
+            this._collisionManager.addCollider(new Collider(shape, tags))
         }
-
-        this._initEventListeners()
     }
 
     _printControlsToConsole() {
@@ -74,10 +75,10 @@ class Demo {
             "    Rotation:",
             "        Anti-Clockwise: Q",
             "        Clockwise: E",
-            "    Swap Collider:",
-            "        BoxCollider: 1",
-            "        CircleCollider: 2",
-            "        PolygonCollider: 3",
+            "    Swap shape:",
+            "        Rectangle: 1",
+            "        Circle: 2",
+            "        Convex Polygon: 3",
         ]
         console.log(instructions.join("\n"))
     }
@@ -121,15 +122,15 @@ class Demo {
                     break
 
                 case "Digit1":
-                    Demo._PLAYER.convertToBoxCollider()
+                    Demo._PLAYER.convertToRectangle()
                     break
 
                 case "Digit2":
-                    Demo._PLAYER.convertToCircleCollider()
+                    Demo._PLAYER.convertToCircle()
                     break
 
                 case "Digit3":
-                    Demo._PLAYER.convertToPolygonCollider()
+                    Demo._PLAYER.convertToConvexPolygon()
                     break
             }
 
@@ -138,20 +139,10 @@ class Demo {
     }
 
     update() {
-        if (Demo._PLAYER.needToRefreshCollider)
-            this._refreshPlayerCollider()
-
-        this._collisionManager.checkAllColliders()
+        this._collisionManager.checkForCollisions()
         this._render()
 
         window.requestAnimationFrame(this.update.bind(this))
-    }
-
-    _refreshPlayerCollider() {
-        this._collisionManager.removeCollider(Demo._PLAYER.previousCollider)
-        Demo._PLAYER.previousCollider = null
-
-        this._collisionManager.addCollider(Demo._PLAYER.collider)
     }
 
     _render() {

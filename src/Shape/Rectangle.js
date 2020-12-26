@@ -1,4 +1,4 @@
-class Rectangle extends Shape {
+class Rectangle extends AbstractShape {
     
     constructor(position, width, height) {
         super(position)

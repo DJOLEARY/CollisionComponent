@@ -1,37 +1,40 @@
 class SeperatingAxisTheorem extends AbstractCollision {
 
-    constructor(collider1, collider2) {
-        super(collider1, collider2)
+    constructor(shape1, shape2) {
+        super(shape1, shape2)
     }
 
     testForCollision() {
-        var axes1 = this._getProjectionAxes(this.collider1)
-        var projectionsOverlap1 = this._compareProjections(this.collider1, this.collider2, axes1)
+        if (!(this.shape1 instanceof Polygon) || !(this.shape2 instanceof Polygon))
+            return false
+
+        var axes1 = this._getProjectionAxes(this.shape1)
+        var projectionsOverlap1 = this._compareProjections(this.shape1, this.shape2, axes1)
         if (!projectionsOverlap1)
             return false
 
-        var axes2 = this._getProjectionAxes(this.collider2)
-        var projectionsOverlap2 = this._compareProjections(this.collider1, this.collider2, axes2)
+        var axes2 = this._getProjectionAxes(this.shape2)
+        var projectionsOverlap2 = this._compareProjections(this.shape1, this.shape2, axes2)
         if (!projectionsOverlap2)
             return false
         
         return true
     }
 
-    _compareProjections(collider1, collider2, axes) {
+    _compareProjections(shape1, shape2, axes) {
         for (var i = 0; i < axes.length; i++) {
             const axis = axes[i]
-            var proj1 = this._projectOntoAxis(collider1, axis)
-            var proj2 = this._projectOntoAxis(collider2, axis)
+            var proj1 = this._projectOntoAxis(shape1, axis)
+            var proj2 = this._projectOntoAxis(shape2, axis)
             if (!this._doProjectionsOverlap(proj1, proj2))
                 return false
         }
         return true
     }
 
-    _getProjectionAxes(collider) {
+    _getProjectionAxes(shape) {
         var axes = []
-        var vertices = collider.vertices
+        var vertices = shape.vertices
         var length = vertices.length
         for (var i = 0; i < length; i++) {
             const vertex1 = vertices[i]
@@ -43,8 +46,8 @@ class SeperatingAxisTheorem extends AbstractCollision {
         return axes
     }
 
-    _projectOntoAxis(collider, axis) {
-        const vertices = collider.vertices
+    _projectOntoAxis(shape, axis) {
+        const vertices = shape.vertices
         var max = axis.dotProduct(vertices[0])
         var min = max 
         for (var i = 1; i < vertices.length; i++) {

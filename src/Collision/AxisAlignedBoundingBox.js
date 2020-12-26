@@ -1,13 +1,16 @@
 class AxisAlignedBoundingBox extends AbstractCollision {
 
-    constructor(collider1, collider2) {
-        super(collider1, collider2)
+    constructor(shape1, shape2) {
+        super(shape1, shape2)
     }
 
     testForCollision() {
-        return this.collider1.position.x <= this.collider2.position.x + this.collider2.width &&
-            this.collider1.position.x + this.collider1.width >= this.collider2.position.x &&
-            this.collider1.position.y <= this.collider2.position.y + this.collider2.height &&
-            this.collider1.position.y + this.collider1.height >= this.collider2.position.y
+        if (!(this.shape1 instanceof Rectangle) || !(this.shape2 instanceof Rectangle))
+            return false
+
+        return this.shape1.position.x <= this.shape2.position.x + this.shape2.width &&
+            this.shape1.position.x + this.shape1.width >= this.shape2.position.x &&
+            this.shape1.position.y <= this.shape2.position.y + this.shape2.height &&
+            this.shape1.position.y + this.shape1.height >= this.shape2.position.y
     }
 }

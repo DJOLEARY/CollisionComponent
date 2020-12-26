@@ -22,7 +22,10 @@ class SpatialHashingGrid {
         return new Vector2(x, y)
     }
 
-    comparePositions(pos1, pos2) {
+    canCollide(pos1, pos2) {
+        if (!this.areDimensionsInitialised)
+            return true
+
         var scrPos1 = this.getScreenPosition(pos1)
         var scrPos2 = this.getScreenPosition(pos2)
 

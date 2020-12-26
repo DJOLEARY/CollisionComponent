@@ -1,4 +1,4 @@
-class Polygon extends Shape {
+class Polygon extends AbstractShape {
 
     static CreateOffsetVertexArray(startPosition, offsets) {
         var result = [startPosition]

@@ -2,7 +2,6 @@ class SpatialHashingGridRenderer extends AbstractRenderer {
 
     constructor(context, grid) {
         super(context)
-
         this.grid = grid
     }
 

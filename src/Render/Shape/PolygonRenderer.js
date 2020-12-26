@@ -1,11 +1,11 @@
-class PolygonColliderRenderer extends AbstractColliderRenderer {
+class PolygonRenderer extends AbstractShapeRenderer {
 
-    constructor(context, colliders) {
-        super(context, colliders)
+    constructor(context, shape) {
+        super(context, shape)
     }
 
-    drawShapeToContext(collider) {
-        var vertices = collider.vertices
+    drawShapeToContext() {
+        var vertices = this.shape.vertices
         vertices.forEach((vertex, index) => {
             if (index === 0) {
                 this.context.moveTo(vertex.x, vertex.y)

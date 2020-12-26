@@ -1,6 +1,9 @@
-class Shape {
+class AbstractShape {
 
     constructor(position) {
+        if (this.constructor == AbstractShape)
+            throw new AbstractClassError()
+
         this.position = position
     }
 

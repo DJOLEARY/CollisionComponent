@@ -1,11 +1,14 @@
 class CircleCollision extends AbstractCollision {
 
-    constructor(collider1, collider2) {
-        super(collider1, collider2)
+    constructor(shape1, shape2) {
+        super(shape1, shape2)
     }
 
     testForCollision() {
-        var distance = MathHelper.Distance(this.collider1.position, this.collider2.position)
-        return distance < this.collider1.radius + this.collider2.radius
+        if (!(this.shape1 instanceof Circle) || !(this.shape2 instanceof Circle))
+            return false
+
+        var distance = MathHelper.Distance(this.shape1.position, this.shape2.position)
+        return distance < this.shape1.radius + this.shape2.radius
     }
 }

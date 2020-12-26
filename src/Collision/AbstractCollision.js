@@ -1,8 +1,11 @@
 class AbstractCollision {
 
-    constructor(collider1, collider2) {
-        this.collider1 = collider1
-        this.collider2 = collider2
+    constructor(shape1, shape2) {
+        if (this.constructor == AbstractCollision)
+            throw new AbstractClassError()
+
+        this.shape1 = shape1
+        this.shape2 = shape2
     }
 
     testForCollision() {
