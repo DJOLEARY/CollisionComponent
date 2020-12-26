@@ -6,6 +6,16 @@ class Rectangle extends Shape {
         this.height = height
     }
 
+    move(x, y) {
+        this.position.x += x
+        this.position.y += y
+    }
+
+    scale(scale) {
+        this.width *= scale
+        this.height *= scale
+    }
+
     get vertices() {
         var result = []
         result.push(this.position)
@@ -17,15 +27,5 @@ class Rectangle extends Shape {
 
     get centre() {
         return new Vector2(this.position.x + (this.width / 2), this.position.y + (this.height / 2))
-    }
-
-    move(x, y) {
-        this.position.x += x
-        this.position.y += y
-    }
-
-    scale(scale) {
-        this.width *= scale
-        this.height *= scale
     }
 }

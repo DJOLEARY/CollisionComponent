@@ -17,7 +17,66 @@ class Polygon extends Shape {
         this.vertices = vertices
     }
 
-    getCentre() {
+    addVertex(vertex) {
+        this.vertices.push(vertex)
+    }
+
+    removeVertex(vertex) {
+        var index = this.vertices.indexOf(vertex)
+        if (index > -1)
+            this.vertices.splice(index, 1)
+    }
+
+    move(x, y) {
+        this.position = new Vector2(this.position.x + x, this.position.y + y)
+    }
+
+    scale(scale) {
+        var vertexMatrix = []
+        this.vertices.forEach(vertex => {
+            vertexMatrix.push([vertex.x, vertex.y])
+        })
+        var centre = this.centre
+        var centreMatrix = []
+        for (var i = 0; i < vertexMatrix.length; i++) {
+            centreMatrix.push([centre.x, centre.y])
+        }
+        var scaleMatrix = [
+            [scale, 0],
+            [0, scale]
+        ]
+        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
+        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, scaleMatrix)
+        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
+        for (var i = 0; i < newVertexMatrix.length; i++) {
+            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
+        }
+    }
+
+    rotate(angle) {
+        var angleInRadians = MathHelper.DegreesToRadians(angle)
+        var vertexMatrix = []
+        this.vertices.forEach(vertex => {
+            vertexMatrix.push([vertex.x, vertex.y])
+        })
+        var centre = this.centre
+        var centreMatrix = []
+        for (var i = 0; i < vertexMatrix.length; i++) {
+            centreMatrix.push([centre.x, centre.y])
+        }
+        var rotationMatrix = [
+            [Math.cos(angleInRadians), Math.sin(angleInRadians)],
+            [-Math.sin(angleInRadians), Math.cos(angleInRadians)]
+        ]
+        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
+        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, rotationMatrix)
+        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
+        for (var i = 0; i < newVertexMatrix.length; i++) {
+            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
+        }
+    }
+
+    get centre() {
         //  https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
         var vertexArrayCopy = []
         this.vertices.forEach(vertex => {
@@ -44,65 +103,6 @@ class Polygon extends Shape {
         }
         f = twiceArea * 3
         return new Vector2(x / f + first.x, y / f + first.y)
-    }
-
-    addVertex(vertex) {
-        this.vertices.push(vertex)
-    }
-
-    removeVertex(vertex) {
-        var index = this.vertices.indexOf(vertex)
-        if (index > -1)
-            this.vertices.splice(index, 1)
-    }
-
-    rotate(angle) {
-        var angleInRadians = MathHelper.DegreesToRadians(angle)
-        var vertexMatrix = []
-        this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y])
-        })
-        var centre = this.getCentre()
-        var centreMatrix = []
-        for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y])
-        }
-        var rotationMatrix = [
-            [Math.cos(angleInRadians), Math.sin(angleInRadians)],
-            [-Math.sin(angleInRadians), Math.cos(angleInRadians)]
-        ]
-        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
-        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, rotationMatrix)
-        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
-        for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
-        }
-    }
-
-    scale(scale) {
-        var vertexMatrix = []
-        this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y])
-        })
-        var centre = this.getCentre()
-        var centreMatrix = []
-        for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y])
-        }
-        var scaleMatrix = [
-            [scale, 0],
-            [0, scale]
-        ]
-        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
-        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, scaleMatrix)
-        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
-        for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
-        }
-    }
-
-    move(x, y) {
-        this.position = new Vector2(this.position.x + x, this.position.y + y)
     }
 
     get position() {
