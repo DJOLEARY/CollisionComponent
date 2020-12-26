@@ -1,5 +1,5 @@
 class Circle extends Shape {
-    
+
     constructor(position, radius) {
         super(position)
         this.radius = radius
@@ -12,5 +12,9 @@ class Circle extends Shape {
 
     scale(scale) {
         this.radius *= scale
+    }
+
+    get centre() {
+        return this.position
     }
 }
