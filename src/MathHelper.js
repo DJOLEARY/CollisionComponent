@@ -58,4 +58,42 @@ class MathHelper {
 		return result
 	}
 
+	static IsPointInRectangle(point, rectangle) {
+		var rectArea = rectangle.width * rectangle.height
+
+		var vertices = rectangle.vertices
+		var triangle1Area = MathHelper.TriangleArea(point, vertices[0], vertices[1])
+		var triangle2Area = MathHelper.TriangleArea(point, vertices[1], vertices[2])
+		var triangle3Area = MathHelper.TriangleArea(point, vertices[2], vertices[3])
+		var triangle4Area = MathHelper.TriangleArea(point, vertices[3], vertices[0])
+		var totalTriangleArea = triangle1Area + triangle2Area + triangle3Area + triangle4Area
+
+		return rectArea === totalTriangleArea
+	}
+
+	static TriangleArea(point1, point2, point3) {
+		return Math.abs((point1.x * (point2.y - point3.y) + point2.x * (point3.y - point1.y) + point3.x * (point1.y - point2.y)) / 2)
+	}
+
+	static LineIntersetsCircle(startPoint, endPoint, circle) {
+		var slope = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
+		var yIntercept = (endPoint.y - startPoint.y) - (slope * (endPoint.x - startPoint.x))
+
+		var a = 1 + (slope * slope)
+		var b = -circle.position.x * 2 + (slope * (yIntercept - circle.position.y))
+		var c = Math.pow(circle.position.x, 2) + Math.pow(yIntercept * circle.position.y, 2) - Math.pow(circle.radius, 2)
+
+		var d = (b * b) - 4 * a * c
+		if (d > 0)
+			return [
+				(-b + sqrt(sq(b) - 4 * a * c)) / (2 * a),
+				(-b - sqrt(sq(b) - 4 * a * c)) / (2 * a),
+			]		
+
+		if (d === 0)
+			return [(-b + sqrt(sq(b) - 4 * a * c)) / (2 * a), ]
+
+		return []
+	}
+
 }
