@@ -18,7 +18,7 @@ class Tags {
 
     canIgnoreObject(objectTags) {
         for (let i = 0; i < objectTags.length; i++) {
-            const objectTag = objectTags[i];
+            const objectTag = objectTags[i]
             if (this.hasIgnoreTag(objectTag))
                 return true
         }

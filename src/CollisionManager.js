@@ -6,18 +6,17 @@ class CollisionManager {
     static RENDER_GRID = false
 
     constructor() {
-        this.colliders = [];
+        this.colliders = []
         this.grid = new SpatialHashingGrid(0, 0)
     }
 
     checkForCollisions() {
         this._resetColliders()
-        
+
         this.colliders.forEach(collider1 => {
             this.colliders.forEach(collider2 => {
-                if (collider1 === collider2) {
+                if (collider1 === collider2)
                     return
-                }
 
                 var ignoreCollider = collider1.canIgnoreObject(collider1.objectTags)
                 if (ignoreCollider)
@@ -47,7 +46,7 @@ class CollisionManager {
     }
 
     removeCollider(collider) {
-        var index = this.colliders.indexOf(collider);
+        var index = this.colliders.indexOf(collider)
         if (index > -1)
             this.boxColliderArray.splice(index, 1)
     }

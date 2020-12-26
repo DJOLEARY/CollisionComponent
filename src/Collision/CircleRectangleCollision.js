@@ -11,10 +11,10 @@ class CircleRectangleCollision extends AbstractCollision {
         const circle = this._getCircle()
         const rectangle = this._getRectangle()
 
-        var distX = Math.abs(circle.position.x - (rectangle.position.x + (rectangle.width / 2)));
-        var distY = Math.abs(circle.position.y - (rectangle.position.y + (rectangle.height / 2)));
-        var dX = distX - (rectangle.width / 2);
-        var dY = distY - (rectangle.height / 2);
+        var distX = Math.abs(circle.position.x - (rectangle.position.x + (rectangle.width / 2)))
+        var distY = Math.abs(circle.position.y - (rectangle.position.y + (rectangle.height / 2)))
+        var dX = distX - (rectangle.width / 2)
+        var dY = distY - (rectangle.height / 2)
 
         return distX <= (rectangle.width / 2) + circle.radius &&
             distY <= (rectangle.height / 2) + circle.radius ||
