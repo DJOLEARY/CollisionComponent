@@ -1,11 +1,21 @@
 class SeperatingAxisTheorem extends AbstractCollision {
 
+    static ValidateShapeTypes(shape1, shape2) {
+        if (!(shape1 instanceof Polygon) && !(shape1 instanceof Rectangle))
+            return false
+
+        if (!(shape2 instanceof Polygon) && !(shape2 instanceof Rectangle))
+            return false
+
+        return true
+    }
+
     constructor(shape1, shape2) {
         super(shape1, shape2)
     }
 
     testForCollision() {
-        if (!(this.shape1 instanceof Polygon) || !(this.shape2 instanceof Polygon))
+        if (!SeperatingAxisTheorem.ValidateShapeTypes(this.shape1, this.shape2))
             return false
 
         var axes1 = this._getProjectionAxes(this.shape1)
@@ -17,7 +27,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
         var projectionsOverlap2 = this._compareProjections(this.shape1, this.shape2, axes2)
         if (!projectionsOverlap2)
             return false
-        
+
         return true
     }
 
@@ -49,7 +59,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
     _projectOntoAxis(shape, axis) {
         const vertices = shape.vertices
         var max = axis.dotProduct(vertices[0])
-        var min = max 
+        var min = max
         for (var i = 1; i < vertices.length; i++) {
             const projectedVertex = axis.dotProduct(vertices[i])
             if (projectedVertex < min)

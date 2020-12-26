@@ -1,17 +1,16 @@
 class CollisionTheoremMatcher {
 
     static CheckForCollision(shape1, shape2) {
-        if (shape1 instanceof Rectangle && shape2 instanceof Rectangle)
+        if (AxisAlignedBoundingBox.ValidateShapeTypes(shape1, shape2))
             return new AxisAlignedBoundingBox(shape1, shape2).testForCollision()
 
-        if (shape1 instanceof Circle && shape2 instanceof Circle)
+        if (CircleCollision.ValidateShapeTypes(shape1, shape2))
             return new CircleCollision(shape1, shape2).testForCollision()
 
-        if (shape1 instanceof Polygon && shape2 instanceof Polygon)
+        if (SeperatingAxisTheorem.ValidateShapeTypes(shape1, shape2))
             return new SeperatingAxisTheorem(shape1, shape2).testForCollision()
 
-        if ((shape1 instanceof Circle || shape1 instanceof Rectangle) &&
-            (shape2 instanceof Circle || shape2 instanceof Rectangle))
+        if (CircleRectangleCollision.ValidateShapeTypes(shape1, shape2))
             return new CircleRectangleCollision(shape1, shape2).testForCollision()
 
         return false
