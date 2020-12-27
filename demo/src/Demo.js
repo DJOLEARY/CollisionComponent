@@ -4,9 +4,7 @@ class Demo {
 
     static _PLAYER = {}
 
-    constructor() {}
-
-    init() {
+    constructor() {
         this._initCanvas()
         this._printControlsToConsole()
         this._initDemoObjects()
