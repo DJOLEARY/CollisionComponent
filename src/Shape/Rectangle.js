@@ -1,35 +1,49 @@
-class Rectangle extends AbstractShape {
-    
+class Rectangle extends Polygon {
+
     constructor(position, width, height) {
-        super(position)
-        this.width = width
-        this.height = height
+        var offsets = [
+            new Vector2(width, 0),
+            new Vector2(0, height),
+            new Vector2(-width, 0),
+            new Vector2(0, -height)
+        ]
+        var vertices = Polygon.CreateOffsetVertexArray(position, offsets)
+        super(vertices)
     }
 
-    move(x, y) {
-        this.position.x += x
-        this.position.y += y
+    addVertex(vertex) {}
+
+    removeVertex(vertex) {}
+
+    rotate(angle) {}
+
+    get width() {
+        return MathHelper.Distance(this.vertices[0], this.vertices[1])
     }
 
-    scale(scale) {
-        this.width *= scale
-        this.height *= scale
+    set width(newWidth) {
+        var height = this.height
+        var offsets = [
+            new Vector2(newWidth, 0),
+            new Vector2(0, height),
+            new Vector2(-newWidth, 0),
+            new Vector2(0, -height)
+        ]
+        this.vertices = Polygon.CreateOffsetVertexArray(this.position, offsets)
     }
 
-    render(context) {
-        context.rect(this.position.x, this.position.y, this.width, this.height)
+    get height() {
+        return MathHelper.Distance(this.vertices[1], this.vertices[2])
     }
 
-    get vertices() {
-        var result = []
-        result.push(this.position)
-        result.push(new Vector2(this.position.x + this.width, this.position.y))
-        result.push(new Vector2(this.position.x + this.width, this.position.y + this.height))
-        result.push(new Vector2(this.position.x, this.position.y + this.height))
-        return result
-    }
-
-    get centre() {
-        return new Vector2(this.position.x + (this.width / 2), this.position.y + (this.height / 2))
+    set height(newHeight) {
+        var width = this.width
+        var offsets = [
+            new Vector2(width, 0),
+            new Vector2(0, newHeight),
+            new Vector2(-width, 0),
+            new Vector2(0, -newHeight)
+        ]
+        this.vertices = Polygon.CreateOffsetVertexArray(this.position, offsets)
     }
 }
