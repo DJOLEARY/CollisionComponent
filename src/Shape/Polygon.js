@@ -15,6 +15,7 @@ class Polygon extends AbstractShape {
     constructor(vertices) {
         super(vertices[0])
         this.vertices = vertices
+        this._closeShape()
     }
 
     addVertex(vertex) {
@@ -27,52 +28,45 @@ class Polygon extends AbstractShape {
             this.vertices.splice(index, 1)
     }
 
+    _closeShape() {
+        var first = this.vertices[0]
+        var last = this.vertices[this.vertices.length - 1]
+        if (!first.isEqual(last))
+            this.vertices.push(new Vector2(first.x, first.y))
+    }
+
     move(x, y) {
         this.position = new Vector2(this.position.x + x, this.position.y + y)
     }
 
     scale(scale) {
-        var vertexMatrix = []
-        this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y])
-        })
-        var centre = this.centre
-        var centreMatrix = []
-        for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y])
-        }
         var scaleMatrix = [
             [scale, 0],
-            [0, scale]
+            [0, scale],
         ]
-        var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
-        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, scaleMatrix)
-        var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
-        for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
-        }
+        this._transformVerticesAboutCentre(scaleMatrix)
     }
 
     rotate(angle) {
         var angleInRadians = MathHelper.DegreesToRadians(angle)
-        var vertexMatrix = []
-        this.vertices.forEach(vertex => {
-            vertexMatrix.push([vertex.x, vertex.y])
-        })
-        var centre = this.centre
-        var centreMatrix = []
-        for (var i = 0; i < vertexMatrix.length; i++) {
-            centreMatrix.push([centre.x, centre.y])
-        }
         var rotationMatrix = [
             [Math.cos(angleInRadians), Math.sin(angleInRadians)],
-            [-Math.sin(angleInRadians), Math.cos(angleInRadians)]
+            [-Math.sin(angleInRadians), Math.cos(angleInRadians)],
         ]
+        this._transformVerticesAboutCentre(rotationMatrix)
+    }
+
+    _transformVerticesAboutCentre(inputMatrix) {
+        var vertexMatrix = this._vertexMatrix
+        var centreMatrix = this._centreMatrix
+
         var subResultMatrix = MathHelper.SubMatrices(vertexMatrix, centreMatrix)
-        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, rotationMatrix)
+        var multiplyMatrixResult = MathHelper.MultiplyMatrices(subResultMatrix, inputMatrix)
         var newVertexMatrix = MathHelper.AddMatrices(multiplyMatrixResult, centreMatrix)
+
         for (var i = 0; i < newVertexMatrix.length; i++) {
-            this.vertices[i] = new Vector2(newVertexMatrix[i][0], newVertexMatrix[i][1])
+            const newVertex = Vector2.FromArray(newVertexMatrix[i])
+            this.vertices[i] = newVertex
         }
     }
 
@@ -88,24 +82,15 @@ class Polygon extends AbstractShape {
 
     get centre() {
         //  https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
-        var vertexArrayCopy = []
-        this.vertices.forEach(vertex => {
-            vertexArrayCopy.push(vertex)
-        })
-        var first = vertexArrayCopy[0]
-        var last = vertexArrayCopy[vertexArrayCopy.length - 1]
-        //  Close the shape if not already closed.
-        if (first.x !== last.x && first.y !== last.y)
-            vertexArrayCopy.push(first)
-
+        var first = this.vertices[0]
         var twiceArea = 0
         var x = 0
         var y = 0
-        var numOfVertices = vertexArrayCopy.length
+        var numOfVertices = this.vertices.length
         var f = 0
         for (var i = 0, j = numOfVertices - 1; i < numOfVertices; j = i++) {
-            var p1 = vertexArrayCopy[i]
-            var p2 = vertexArrayCopy[j]
+            var p1 = this.vertices[i]
+            var p2 = this.vertices[j]
             f = (p1.y - first.y) * (p2.x - first.x) - (p2.y - first.y) * (p1.x - first.x)
             twiceArea += f
             x += (p1.x + p2.x - 2 * first.x) * f
@@ -113,6 +98,23 @@ class Polygon extends AbstractShape {
         }
         f = twiceArea * 3
         return new Vector2(x / f + first.x, y / f + first.y)
+    }
+
+    get _vertexMatrix() {
+        var vertexMatrix = []
+        this.vertices.forEach(vertex => {
+            vertexMatrix.push(vertex.asArray())
+        }, this)
+        return vertexMatrix
+    }
+
+    get _centreMatrix() {
+        var centre = this.centre
+        var centreMatrix = []
+        for (var i = 0; i < this.vertices.length; i++) {
+            centreMatrix.push(centre.asArray())
+        }
+        return centreMatrix
     }
 
     get position() {
