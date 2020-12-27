@@ -11,15 +11,19 @@ class AbstractShape {
         throw new AbstractFunctionError()
     }
 
-    scale(ratio){
+    scale(ratio) {
         throw new AbstractFunctionError()
     }
 
-    rotate(degrees){
+    rotate(degrees) {
         throw new AbstractFunctionError()
     }
 
     render(context) {
+        throw new AbstractFunctionError()
+    }
+
+    get centre() {
         throw new AbstractFunctionError()
     }
 }
