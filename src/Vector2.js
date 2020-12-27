@@ -30,7 +30,11 @@ class Vector2 {
     }
 
     get unit() {
-        return MathHelper.Normalise(this)        
+        return MathHelper.Normalise(this)
+    }
+
+    get magnitude() {
+        return MathHelper.Magnitude(this)
     }
 
     get normal() {
