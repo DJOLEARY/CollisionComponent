@@ -1,4 +1,4 @@
-class CirclePolygonCollision extends AbstractCollision {
+class CirclePolygonSAT extends SeperatingAxisTheorem {
 
     static ValidateShapes(shape1, shape2) {
         var isCircle1 = shape1 instanceof Circle
@@ -23,7 +23,7 @@ class CirclePolygonCollision extends AbstractCollision {
     }
 
     testForCollision() {
-        if (!CirclePolygonCollision.ValidateShapes(this.shape1, this.shape2))
+        if (!CirclePolygonSAT.ValidateShapes(this.shape1, this.shape2))
             return false
 
         const circle = this._getCircle()

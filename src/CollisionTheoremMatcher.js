@@ -10,8 +10,8 @@ class CollisionTheoremMatcher {
         if (SeperatingAxisTheorem.ValidateShapes(shape1, shape2))
             return new SeperatingAxisTheorem(shape1, shape2).testForCollision()
 
-        if (CirclePolygonCollision.ValidateShapes(shape1, shape2))
-            return new CirclePolygonCollision(shape1, shape2).testForCollision()
+        if (CirclePolygonSAT.ValidateShapes(shape1, shape2))
+            return new CirclePolygonSAT(shape1, shape2).testForCollision()
 
         return false
     }
