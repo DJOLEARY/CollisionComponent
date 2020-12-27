@@ -95,7 +95,7 @@ class Polygon extends AbstractShape {
         var first = vertexArrayCopy[0]
         var last = vertexArrayCopy[vertexArrayCopy.length - 1]
         //  Close the shape if not already closed.
-        if (first != last)
+        if (first.x !== last.x && first.y !== last.y)
             vertexArrayCopy.push(first)
 
         var twiceArea = 0
