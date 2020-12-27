@@ -23,7 +23,8 @@ class Player {
     }
 
     convertToConvexPolygon() {
-        if (this.collider.shape instanceof Polygon)
+        // Can't use instanceof here as Rectangle inherits from Polygon
+        if (this.collider.shape.constructor === Polygon)
             return
 
         var offsets = [
