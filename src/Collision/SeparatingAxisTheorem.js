@@ -1,6 +1,6 @@
 class SeperatingAxisTheorem extends AbstractCollision {
 
-    static ValidateShapes(shape1, shape2) {        
+    static ValidateShapes(shape1, shape2) {
         return shape1 instanceof Polygon && shape2 instanceof Polygon
     }
 
@@ -28,8 +28,8 @@ class SeperatingAxisTheorem extends AbstractCollision {
     _compareProjections(axes) {
         for (var i = 0; i < axes.length; i++) {
             const axis = axes[i]
-            var proj1 = this._projectOntoAxis(this.shape1, axis)
-            var proj2 = this._projectOntoAxis(this.shape2, axis)
+            var proj1 = this._projectShapeOntoAxis(this.shape1, axis)
+            var proj2 = this._projectShapeOntoAxis(this.shape2, axis)
             if (!this._doProjectionsOverlap(proj1, proj2))
                 return false
         }
@@ -49,12 +49,13 @@ class SeperatingAxisTheorem extends AbstractCollision {
         return axes
     }
 
-    _projectOntoAxis(shape, axis) {
+    _projectShapeOntoAxis(shape, axis) {
         const vertices = shape.vertices
         var max = axis.dotProduct(vertices[0])
         var min = max
         for (var i = 1; i < vertices.length; i++) {
-            const projectedVertex = axis.dotProduct(vertices[i])
+            const vertex = vertices[i]
+            const projectedVertex = this._projectVertexOntoAxis(vertex, axis)
             if (projectedVertex < min)
                 min = projectedVertex
             else if (projectedVertex > max)
@@ -65,6 +66,10 @@ class SeperatingAxisTheorem extends AbstractCollision {
         projection.min = min
         projection.max = max
         return projection
+    }
+
+    _projectVertexOntoAxis(vertex, axis) {
+        return axis.dotProduct(vertex)
     }
 
     _doProjectionsOverlap(proj1, proj2) {
