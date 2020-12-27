@@ -1,6 +1,6 @@
 class AxisAlignedBoundingBox extends AbstractCollision {
 
-    static ValidateShapeTypes(shape1, shape2) {
+    static ValidateShapes(shape1, shape2) {
         return shape1 instanceof Rectangle && shape2 instanceof Rectangle
     }
 
@@ -9,7 +9,7 @@ class AxisAlignedBoundingBox extends AbstractCollision {
     }
 
     testForCollision() {
-        if (!AxisAlignedBoundingBox.ValidateShapeTypes(this.shape1, this.shape2))
+        if (!AxisAlignedBoundingBox.ValidateShapes(this.shape1, this.shape2))
             return false
 
         return this.shape1.position.x <= this.shape2.position.x + this.shape2.width &&

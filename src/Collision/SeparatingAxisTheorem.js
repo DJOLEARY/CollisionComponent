@@ -1,6 +1,6 @@
 class SeperatingAxisTheorem extends AbstractCollision {
 
-    static ValidateShapeTypes(shape1, shape2) {
+    static ValidateShapes(shape1, shape2) {
         if (!(shape1 instanceof Polygon) && !(shape1 instanceof Rectangle))
             return false
 
@@ -15,7 +15,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
     }
 
     testForCollision() {
-        if (!SeperatingAxisTheorem.ValidateShapeTypes(this.shape1, this.shape2))
+        if (!SeperatingAxisTheorem.ValidateShapes(this.shape1, this.shape2))
             return false
 
         var axes1 = this._getProjectionAxes(this.shape1)

@@ -1,6 +1,6 @@
 class AbstractCollision {
 
-    static ValidateShapeTypes(shape1, shape2) {
+    static ValidateShapes(shape1, shape2) {
         throw new AbstactFunctionError()
     }
 

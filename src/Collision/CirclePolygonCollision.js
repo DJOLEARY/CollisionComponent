@@ -1,17 +1,17 @@
-class CircleRectangleCollision extends AbstractCollision {
+class CirclePolygonCollision extends AbstractCollision {
 
-    static ValidateShapeTypes(shape1, shape2) {
+    static ValidateShapes(shape1, shape2) {
         var isCircle1 = shape1 instanceof Circle
-        var isRectangle1 = shape1 instanceof Rectangle
-        if (!isCircle1 && !isRectangle1)
+        var isPolygon1 = shape1 instanceof Polygon
+        if (!isCircle1 && !isPolygon1)
             return false
 
         var isCircle2 = shape2 instanceof Circle
-        var isRectangle2 = shape2 instanceof Rectangle
-        if (!isCircle2 && !isRectangle2)
+        var isPolygon2 = shape2 instanceof Polygon
+        if (!isCircle2 && !isPolygon2)
             return false
 
-        var areSameType = isCircle1 && isCircle2 || isRectangle1 && isRectangle2
+        var areSameType = isCircle1 && isCircle2 || isPolygon1 && isPolygon2
         if (areSameType)
             return false
 
@@ -23,11 +23,11 @@ class CircleRectangleCollision extends AbstractCollision {
     }
 
     testForCollision() {
-        if (!CircleRectangleCollision.ValidateShapeTypes(this.shape1, this.shape2))
+        if (!CircleRectangleCollision.ValidateShapes(this.shape1, this.shape2))
             return false
 
         const circle = this._getCircle()
-        const rectangle = this._getRectangle()
+        const polygon = this._getPolygon()
 
         var distX = Math.abs(circle.position.x - (rectangle.position.x + (rectangle.width / 2)))
         var distY = Math.abs(circle.position.y - (rectangle.position.y + (rectangle.height / 2)))
@@ -43,8 +43,8 @@ class CircleRectangleCollision extends AbstractCollision {
         return this.shape1 instanceof Circle ? this.shape1 : this.shape2
     }
 
-    _getRectangle() {
-        return this.shape1 instanceof Rectangle ? this.shape1 : this.shape2
+    _getPolygon() {
+        return this.shape1 instanceof Polygon ? this.shape1 : this.shape2
     }
 
 }
