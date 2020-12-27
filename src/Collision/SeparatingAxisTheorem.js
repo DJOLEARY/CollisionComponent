@@ -44,8 +44,7 @@ class SeperatingAxisTheorem extends AbstractCollision {
             const vertex1 = vertices[i]
             const vertex2 = vertices[i + 1 == length ? 0 : i + 1]
             var edge = vertex1.subtract(vertex2)
-            var normal = edge.perp()
-            axes[i] = normal
+            axes[i] = edge.normal
         }
         return axes
     }
