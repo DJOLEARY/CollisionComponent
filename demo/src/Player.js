@@ -1,7 +1,7 @@
 class Player {
 
-    constructor() {
-        var shape = new Rectangle(new Vector2(0, 0), 50, 50)
+    constructor(position) {
+        var shape = new Rectangle(position, 50, 50)
         var tags = new Tags(["player"], [])
         this.collider = new Collider(shape, tags)
     }

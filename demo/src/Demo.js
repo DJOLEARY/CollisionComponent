@@ -2,7 +2,8 @@ class Demo {
 
     static _USE_SPATIAL_HASHING = true
 
-    static _PLAYER = {}
+    static _PLAYER1 = {}
+    static _PLAYER2 = {}
 
     constructor() {
         this._initCanvas()
@@ -22,30 +23,16 @@ class Demo {
     _initDemoObjects() {
         this._collisionManager = new CollisionManager()
         if (Demo._USE_SPATIAL_HASHING)
-            this._collisionManager.useSpatialHashing(100, 100)        
+            this._collisionManager.useSpatialHashing(100, 100)
 
-        Demo._PLAYER = new Player()
-        this._collisionManager.addCollider(Demo._PLAYER.collider)
+        Demo._PLAYER1 = new Player(new Vector2(50, 50))
+        this._collisionManager.addCollider(Demo._PLAYER1.collider)
 
-        this._initSeparatingAxisTheoremNpc()
+        Demo._PLAYER2 = new Player(new Vector2(200, 50))
+        this._collisionManager.addCollider(Demo._PLAYER2.collider)
+
         this._initSpatialHashingDemoNpcs()
         this._initEventListeners()
-    }
-
-    _initSeparatingAxisTheoremNpc() {
-        var polygonVertices = [
-            new Vector2(600, 25),
-            new Vector2(610, 10),
-            new Vector2(630, 40),
-            new Vector2(650, 70),
-            new Vector2(660, 90),
-            new Vector2(640, 120),
-            new Vector2(620, 150),
-            new Vector2(600, 80)
-        ]
-        var shape = new Polygon(polygonVertices)
-        var tags = new Tags(["rock"], [])
-        this._collisionManager.addCollider(new Collider(shape, tags))
     }
 
     _initSpatialHashingDemoNpcs() {
@@ -61,7 +48,7 @@ class Demo {
 
     _printControlsToConsole() {
         var instructions = [
-            "Controls:",
+            "Player 1 Controls:",
             "    Movement:",
             "        Up: W",
             "        Down: S",
@@ -77,6 +64,23 @@ class Demo {
             "        Rectangle: 1",
             "        Circle: 2",
             "        Convex Polygon: 3",
+            "",
+            "Player 2 Controls:",
+            "    Movement:",
+            "        Up: O",
+            "        Down: L",
+            "        Left: K",
+            "        Right: ;",
+            "    Scale:",
+            "        Up: U",
+            "        Down: J",
+            "    Rotation:",
+            "        Anti-Clockwise: I",
+            "        Clockwise: P",
+            "    Swap shape:",
+            "        Rectangle: 8",
+            "        Circle: 9",
+            "        Convex Polygon: 0",
         ]
         console.log(instructions.join("\n"))
     }
@@ -87,48 +91,94 @@ class Demo {
                 return
 
             switch (event.code) {
+                // Player 1 controls
                 case "KeyW":
-                    Demo._PLAYER.move(0, -5)
+                    Demo._PLAYER1.move(0, -5)
                     break
 
                 case "KeyS":
-                    Demo._PLAYER.move(0, 5)
+                    Demo._PLAYER1.move(0, 5)
                     break
 
                 case "KeyA":
-                    Demo._PLAYER.move(-5, 0)
+                    Demo._PLAYER1.move(-5, 0)
                     break
 
                 case "KeyD":
-                    Demo._PLAYER.move(5, 0)
+                    Demo._PLAYER1.move(5, 0)
                     break
 
                 case "KeyQ":
-                    Demo._PLAYER.rotate(-5)
+                    Demo._PLAYER1.rotate(-5)
                     break
 
                 case "KeyE":
-                    Demo._PLAYER.rotate(5)
+                    Demo._PLAYER1.rotate(5)
                     break
 
                 case "KeyR":
-                    Demo._PLAYER.scale(2)
+                    Demo._PLAYER1.scale(2)
                     break
 
                 case "KeyF":
-                    Demo._PLAYER.scale(0.5)
+                    Demo._PLAYER1.scale(0.5)
                     break
 
                 case "Digit1":
-                    Demo._PLAYER.convertToRectangle()
+                    Demo._PLAYER1.convertToRectangle()
                     break
 
                 case "Digit2":
-                    Demo._PLAYER.convertToCircle()
+                    Demo._PLAYER1.convertToCircle()
                     break
 
                 case "Digit3":
-                    Demo._PLAYER.convertToConvexPolygon()
+                    Demo._PLAYER1.convertToConvexPolygon()
+                    break
+
+                // Player 2 Controls
+                case "KeyO":
+                    Demo._PLAYER2.move(0, -5)
+                    break
+
+                case "KeyL":
+                    Demo._PLAYER2.move(0, 5)
+                    break
+
+                case "KeyK":
+                    Demo._PLAYER2.move(-5, 0)
+                    break
+
+                case "Semicolon":
+                    Demo._PLAYER2.move(5, 0)
+                    break
+
+                case "KeyI":
+                    Demo._PLAYER2.rotate(-5)
+                    break
+
+                case "KeyP":
+                    Demo._PLAYER2.rotate(5)
+                    break
+
+                case "KeyU":
+                    Demo._PLAYER2.scale(2)
+                    break
+
+                case "KeyJ":
+                    Demo._PLAYER2.scale(0.5)
+                    break
+
+                case "Digit8":
+                    Demo._PLAYER2.convertToRectangle()
+                    break
+
+                case "Digit9":
+                    Demo._PLAYER2.convertToCircle()
+                    break
+
+                case "Digit0":
+                    Demo._PLAYER2.convertToConvexPolygon()
                     break
             }
 
