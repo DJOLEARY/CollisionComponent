@@ -1,7 +1,7 @@
 class ColliderRenderer extends AbstractRenderer {
 
     noCollisionColour = "Green"
-    checkedColour = "Yellow"
+    checkedColour = "Orange"
     collisionColour = "Red"
 
     constructor(context, colliders) {
