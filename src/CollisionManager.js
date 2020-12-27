@@ -16,7 +16,7 @@ class CollisionManager {
                 if (collider1 === collider2)
                     return
 
-                var ignoreCollider = collider1.canIgnoreObject(collider1.objectTags)
+                var ignoreCollider = collider1.canIgnoreObject(collider2.objectTags)
                 if (ignoreCollider)
                     return
 
