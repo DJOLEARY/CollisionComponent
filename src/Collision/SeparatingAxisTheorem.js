@@ -1,13 +1,7 @@
 class SeperatingAxisTheorem extends AbstractCollision {
 
-    static ValidateShapes(shape1, shape2) {
-        if (!(shape1 instanceof Polygon) && !(shape1 instanceof Rectangle))
-            return false
-
-        if (!(shape2 instanceof Polygon) && !(shape2 instanceof Rectangle))
-            return false
-
-        return true
+    static ValidateShapes(shape1, shape2) {        
+        return shape1 instanceof Polygon && shape2 instanceof Polygon
     }
 
     constructor(shape1, shape2) {
