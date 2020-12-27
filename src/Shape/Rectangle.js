@@ -17,6 +17,11 @@ class Rectangle extends Polygon {
 
     rotate(angle) {}
 
+    get centre() {
+        const topLeftVertex = this.vertices[0]
+        return new Vector2(topLeftVertex.x + (this.width / 2), topLeftVertex.y + (this.height / 2))
+    }
+
     get width() {
         return MathHelper.Distance(this.vertices[0], this.vertices[1])
     }
