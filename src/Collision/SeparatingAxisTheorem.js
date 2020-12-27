@@ -13,23 +13,23 @@ class SeperatingAxisTheorem extends AbstractCollision {
             return false
 
         var axes1 = this._getProjectionAxes(this.shape1)
-        var projectionsOverlap1 = this._compareProjections(this.shape1, this.shape2, axes1)
+        var projectionsOverlap1 = this._compareProjections(axes1)
         if (!projectionsOverlap1)
             return false
 
         var axes2 = this._getProjectionAxes(this.shape2)
-        var projectionsOverlap2 = this._compareProjections(this.shape1, this.shape2, axes2)
+        var projectionsOverlap2 = this._compareProjections(axes2)
         if (!projectionsOverlap2)
             return false
 
         return true
     }
 
-    _compareProjections(shape1, shape2, axes) {
+    _compareProjections(axes) {
         for (var i = 0; i < axes.length; i++) {
             const axis = axes[i]
-            var proj1 = this._projectOntoAxis(shape1, axis)
-            var proj2 = this._projectOntoAxis(shape2, axis)
+            var proj1 = this._projectOntoAxis(this.shape1, axis)
+            var proj2 = this._projectOntoAxis(this.shape2, axis)
             if (!this._doProjectionsOverlap(proj1, proj2))
                 return false
         }
