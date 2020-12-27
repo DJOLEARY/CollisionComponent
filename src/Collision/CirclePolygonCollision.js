@@ -23,20 +23,13 @@ class CirclePolygonCollision extends AbstractCollision {
     }
 
     testForCollision() {
-        if (!CircleRectangleCollision.ValidateShapes(this.shape1, this.shape2))
+        if (!CirclePolygonCollision.ValidateShapes(this.shape1, this.shape2))
             return false
 
         const circle = this._getCircle()
         const polygon = this._getPolygon()
 
-        var distX = Math.abs(circle.position.x - (rectangle.position.x + (rectangle.width / 2)))
-        var distY = Math.abs(circle.position.y - (rectangle.position.y + (rectangle.height / 2)))
-        var dX = distX - (rectangle.width / 2)
-        var dY = distY - (rectangle.height / 2)
-
-        return distX <= (rectangle.width / 2) + circle.radius &&
-            distY <= (rectangle.height / 2) + circle.radius ||
-            Math.pow(dX, 2) + Math.pow(dY, 2) <= Math.pow(circle.radius, 2)
+        return false
     }
 
     _getCircle() {
